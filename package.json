@@ -1,0 +1,13 @@
+{
+  "name": "demo_10_24",
+  "uuid": "10818e39-6282-4647-ad69-ff1913adf026",
+  "version": "3.4.2",
+  "creator": {
+    "version": "3.4.2"
+  },
+  "dependencies": {
+    "@types/node": "^24.10.0",
+    "protobufjs": "^7.5.4",
+    "undici-types": "^7.16.0"
+  }
+}
