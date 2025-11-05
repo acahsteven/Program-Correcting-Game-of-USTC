@@ -69,6 +69,7 @@ export class codearea extends Component {
         //console.log(this.codelinesNode);
     }
     roll (event: EventMouse) {
+        if(Globaldata.gamestateNumber == 0)return;
         let abs: number = event.getScrollY();
         let flag: number;
         if (abs > 0) {
@@ -86,6 +87,7 @@ export class codearea extends Component {
     }
 
     run () {
+        if(Globaldata.gamestateNumber == 0)return;
         console.log("run start");
         let ac = true;
         for(let i = 0;i<this.lines;i++){
@@ -102,6 +104,7 @@ export class codearea extends Component {
     }
 
     clickJudge (name: string) {
+        if(Globaldata.gamestateNumber == 0)return;
         let children = this.codelinesNode.children;
         children.forEach(childNode => {
             if(childNode.name == name){
@@ -127,11 +130,13 @@ export class codearea extends Component {
     }
 
     back () {
+        if(Globaldata.gamestateNumber == 0)return;
         this.areaNode.active = false;
         this.smalliconNode.active = true;
     }
 
     AIcheck () {
+        if(Globaldata.gamestateNumber == 0)return;
         if(this.AI_assist == 0){
             let children = this.codelinesNode.children;
             children.forEach(childNode => {

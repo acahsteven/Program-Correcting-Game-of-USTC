@@ -1,7 +1,7 @@
 
-import { _decorator, Component, Node, Input, input, director, } from 'cc';
+import { _decorator, Component, Node, Input, input, director, game, } from 'cc';
 import { Globaldata } from './data';
-import * as fs from 'fs';
+//import * as fs from 'fs';
 const { ccclass, property } = _decorator;
 /**
  * Predefined variables
@@ -45,7 +45,7 @@ export class game_start extends Component {
     //     // [4]
     // }
     end (){
-
+        game.end();
     }
 
     levelButtonClick () {

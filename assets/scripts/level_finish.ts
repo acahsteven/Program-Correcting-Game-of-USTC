@@ -33,11 +33,12 @@ export class level_finish extends Component {
     // }
 
     onClick (event,data) {
+        Globaldata.gamestateNumber = 0;
         if(data == 1){
             Globaldata.curlevelsNumber++;
             director.loadScene('game_main');
         }
-        else if(data ==2){
+        else if(data == 2){
             Globaldata.curlevelsNumber = 0;
             director.loadScene('game_start');
         }

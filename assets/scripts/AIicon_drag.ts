@@ -1,5 +1,6 @@
 
 import { _decorator, Component, EventMouse, Node, director, Tween, tween,Vec3 } from 'cc';
+import { Globaldata } from './data';
 const { ccclass, property } = _decorator;
 
 
@@ -21,6 +22,7 @@ export class AIicon_drag extends Component {
     // }
     
     touch (event: EventMouse) {
+        if(Globaldata.gamestateNumber == 0)return;
         if(this.flag != 0) return;
         this.flag = 1;
         this.node.on(Node.EventType.MOUSE_MOVE,this.drag,this);
@@ -40,6 +42,7 @@ export class AIicon_drag extends Component {
     }
 
     click () {
+        if(Globaldata.gamestateNumber == 0)return;
         if(this.flag == 1){
             director.emit('click2');
         }

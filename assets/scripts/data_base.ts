@@ -1,5 +1,5 @@
 
-import { _decorator, Component, Node } from 'cc';
+import { _decorator, Component, director, Node } from 'cc';
 import { game_start } from './game_start';
 const { ccclass, property } = _decorator;
 
@@ -33,21 +33,40 @@ export class data_base extends Component {
     
 
     @property ({type:Node})
-    private smalliconNode = null;
+    private smallicon1Node = null;
 
     @property ({type:Node})
-    private areaNode = null;
+    private smallicon2Node = null;
+
+    @property ({type:Node})
+    private codeareaNode = null;
+
+    @property ({type:Node})
+    private logareaNode = null;
 
     start () {
-        this.smalliconNode.active = false;
+        this.codeareaNode.active = false;
+        this.smallicon1Node.active = false;
+        this.smallicon2Node.active = false;
+        director.on('dialogues_finished',this.show,this);
     }
 
     // update (deltaTime: number) {
     //     // [4]
     // }
-    large () {
-        this.smalliconNode.active = false;
-        this.areaNode.active = true;
+    large1 () {
+        this.smallicon1Node.active = false;
+        this.codeareaNode.active = true;
+    }
+
+    large2 () {
+        this.smallicon2Node.active = false;
+        this.logareaNode.active = true;
+    }
+
+    show () {
+        this.codeareaNode.active = true;
+        director.off('dialogues_finished',this.show,this);
     }
 }
 
