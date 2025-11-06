@@ -34,6 +34,7 @@ export class level_finish extends Component {
 
     onClick (event,data) {
         Globaldata.gamestateNumber = 0;
+        Globaldata.gameperiodNumber = 0;
         if(data == 1){
             Globaldata.curlevelsNumber++;
             director.loadScene('game_main');

@@ -3,33 +3,20 @@ import { _decorator, Component, director, Node } from 'cc';
 import { game_start } from './game_start';
 const { ccclass, property } = _decorator;
 
-const TextArray: string[][] = [
-    [
-        ' 1    #include<stdio.h>',
-        ' 2    int main(){',
-        ' 3    printf("hello,world!");',
-        ' 4    return 0;',
-        ' 5    }'
-    ],
-    [
-
-    ]
-]
-
 /**
  * Predefined variables
- * Name = data_base
+ * Name = base
  * DateTime = Mon Nov 03 2025 17:00:56 GMT+0800 (GMT+08:00)
  * Author = RE_DoR
- * FileBasename = data_base.ts
- * FileBasenameNoExtension = data_base
- * URL = db://assets/scripts/data_base.ts
+ * FileBasename = base.ts
+ * FileBasenameNoExtension = base
+ * URL = db://assets/scripts/base.ts
  * ManualUrl = https://docs.cocos.com/creator/3.4/manual/zh/
  *
  */
  
-@ccclass('data_base')
-export class data_base extends Component {
+@ccclass('base')
+export class base extends Component {
     
 
     @property ({type:Node})
@@ -48,7 +35,7 @@ export class data_base extends Component {
         this.codeareaNode.active = false;
         this.smallicon1Node.active = false;
         this.smallicon2Node.active = false;
-        director.on('dialogues_finished',this.show,this);
+        director.on('dialogues_finished_base',this.show,this);
     }
 
     // update (deltaTime: number) {

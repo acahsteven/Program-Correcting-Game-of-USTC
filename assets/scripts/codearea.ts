@@ -1,8 +1,8 @@
 
-import { _decorator, Component, director, EventMouse, Node, Vec3, Label, Color, instantiate, Prefab} from 'cc';
+import { _decorator, Component, director, EventMouse, Node, Vec3, Label, Color, instantiate, Prefab, EventTarget} from 'cc';
 import { Globaldata } from './data';
 const { ccclass, property } = _decorator;
-const eventtarget = new EventTarget();
+const eventTarget = new EventTarget();
  
 @ccclass('codearea')
 export class codearea extends Component {
@@ -21,27 +21,25 @@ export class codearea extends Component {
 
     @property ({type:Node})
     private areaNode = null;
-
     @property ({type:Node})
     private codelinesNode = null;
-
     @property ({type:Node})
     private smalliconNode = null;
-
     @property ({type:Prefab})
     private codePrefab:Prefab = null;
-
     @property ({type:Node})
     private finishNode:Node = null;
+    @property ({type:Label})
+    private filenameLabel:Label = null;
 
     onLoad () {
         this.finishNode.active = false;
         this.initialize(Globaldata.curlevelsNumber);
-        this.curlevelNumber = Globaldata.curlevelsNumber;
-        this.textArray = [Globaldata.orgtextString[this.curlevelNumber],Globaldata.altertextString[this.curlevelNumber]]
         this.node.on(Node.EventType.MOUSE_WHEEL,this.roll,this);
         director.on('click',this.clickJudge,this);
         director.on('click2',this.AIcheck,this);
+        director.on('next_codearea',this.next,this);
+        director.on('end_codearea',this.end,this);//待改
     }
 
     // update (deltaTime: number) {
@@ -52,10 +50,11 @@ export class codearea extends Component {
         this.curlevelNumber = cur_l;
         // console.log('initialize start');
         // console.log(cur_l);
-        this.textArray = [Globaldata.orgtextString[cur_l],Globaldata.altertextString[cur_l]];
-        this.lines = Globaldata.linesNumber[cur_l];
-        this.changeableArray = Globaldata.changeableArray[cur_l];
-        this.answerArray = Globaldata.answerArray[cur_l];
+        this.filenameLabel.string = Globaldata.filenameString[cur_l][Globaldata.gameperiodNumber];
+        this.textArray = [Globaldata.orgtextString[cur_l][Globaldata.gameperiodNumber],Globaldata.altertextString[cur_l][Globaldata.gameperiodNumber]];
+        this.lines = Globaldata.linesNumber[cur_l][Globaldata.gamestateNumber];
+        this.changeableArray = Globaldata.changeableArray[cur_l][Globaldata.gameperiodNumber];
+        this.answerArray = Globaldata.answerArray[cur_l][Globaldata.gameperiodNumber];
         let cur_y=300;
         for(let i=0;i<this.lines;i++){
             let codeline = instantiate(this.codePrefab);
@@ -72,7 +71,7 @@ export class codearea extends Component {
         if(Globaldata.gamestateNumber == 0)return;
         let abs: number = event.getScrollY();
         let flag: number;
-        if (abs > 0) {
+        if (abs < 0) {
             flag = 1;
             if(this.codelinesNode.position.y >= 40*(this.lines-17)) return;
         }
@@ -94,12 +93,13 @@ export class codearea extends Component {
             if(this.statArray[i]!=this.answerArray[i])ac = false;
         }
         if(ac){
-            this.finishNode.active = true;
-            Globaldata.passstatBoolean[this.curlevelNumber] = true;
-            console.log("AC");
+            //this.finishNode.active = true;
+            Globaldata.gameperiodNumber++;
+            director.emit('resume');
+            //console.log("AC");
         }
         else{
-            console.log("WA");
+            //console.log("WA");
         }
     }
 
@@ -161,5 +161,19 @@ export class codearea extends Component {
             });
         }
         this.AI_assist = this.AI_assist ^ 1;
+    }
+
+    next () {
+        for(let child of this.codelinesNode.children){
+            child.destroy();
+        }
+        this.codelinesNode.setPosition(new Vec3(0,0,0));
+        this.statArray = [];
+        this.initialize(Globaldata.curlevelsNumber);
+    }
+
+    end () {
+        Globaldata.gamestateNumber = 0;
+        this.finishNode.active = true;
     }
 }
