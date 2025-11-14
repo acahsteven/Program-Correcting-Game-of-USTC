@@ -1,6 +1,7 @@
 
-import { _decorator, Component, director, Node } from 'cc';
+import { _decorator, Animation, Component, director, Label, Node } from 'cc';
 import { game_start } from './game_start';
+import { Globaldata } from './data';
 const { ccclass, property } = _decorator;
 
 /**
@@ -31,16 +32,43 @@ export class base extends Component {
     @property ({type:Node})
     private logareaNode = null;
 
+    @property ({type:Node})
+    private startAnimationNode = null;
+
     start () {
         this.codeareaNode.active = false;
+        this.startAnimationNode.active = false;
         this.smallicon1Node.active = false;
         this.smallicon2Node.active = false;
+        this.animation();
+        console.log('start end');
         director.on('dialogues_finished_base',this.show,this);
     }
 
     // update (deltaTime: number) {
     //     // [4]
     // }
+    sleep(duration: number): Promise<void> {
+        return new Promise<void>((resolve) => {
+            this.scheduleOnce(resolve, duration);
+        });
+    }
+    async animation () {
+        console.log('animation start');
+
+        this.logareaNode.active = false;
+        this.startAnimationNode.active = true;
+        let text = this.startAnimationNode.getComponent(Label);
+        text.string = `Week ${Globaldata.curlevelsNumber}`;
+        let ani = this.startAnimationNode.getComponent(Animation);
+        ani.play('showweek');
+        await this.sleep(2.5);
+        this.logareaNode.active = true;
+        this.startAnimationNode.active = false;
+        director.emit('animation_finish');
+
+        console.log('animation finish');
+    }
     large1 () {
         this.smallicon1Node.active = false;
         this.codeareaNode.active = true;

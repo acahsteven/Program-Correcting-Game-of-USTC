@@ -2,7 +2,8 @@ export class Globaldata{
     public static gamestateNumber = 0;
     public static gameperiodNumber = 0;
     public static curlevelsNumber = 1;
-    public static passstatBoolean:boolean[] = [false,false,false,false,false];
+
+    /*public static passstatBoolean:boolean[] = [false,false,false,false,false];
     public static linesNumber: number[][] = [[],[5,6]];
     public static orgtextString: string[][][] = [
         [],
@@ -54,34 +55,34 @@ export class Globaldata{
 
     public static totalperiodNumber: number[] = [0,3];
     public static namesArray: string[] = ['whh','st1','st2','st3','st4'];
-    public static dialoguesArray: string[][][] = [
+    public static dialoguesArray: [number,string[]][][] = [
         [],
         [
-            ['7',
-            '0 同学们，今天是程序设计课程的第一课。',
+            [7,
+            ['0 同学们，今天是程序设计课程的第一课。',
             '0 请大家按课程内容完成编译环境的配置，并完成第一个C语言的程序的编写。',
             '0 完成后请将源代码交至助教处进行检查。',
             '1 收到',
             '2 收到',
             '3 猪脚，我的代码怎么弄都编译错误，你能帮忙看看吗？已经发给你了',
-            '0 稍等，我看一下'
+            '0 稍等，我看一下']
             ],
-            ['5',
-            '0 大家注意了，C语言的标准输出函数是printf',
+            [5,
+            ['0 大家注意了，C语言的标准输出函数是printf',
             '0 不是print或者别的什么',
             '3 收到，已经改正了',
             '2 助教，能看下我的吗',
-            '0 OK'
+            '0 OK']
             ],
-            ['4',
-            `0 @${this.namesArray[2]}，你写的是C++语法...`,
+            [4,
+            [`0 @${this.namesArray[2]}，你写的是C++语法...`,
             '0 有C++基础的同学不要把C和C++弄混了',
             '0 考试写C++是没分的',
-            '2 收到，谢谢助教提醒'
+            '2 收到，谢谢助教提醒']
             ]
         ]
     ];
-    public static choiceArray: [number,string[],string[][],boolean[][]][] = [ //存放关卡的选择题数目，问题内容，选项，与对错情况
+    public static choiceArray: [number, string[], string[][], boolean[][]][] = [ //存放关卡的选择题数目，问题内容，选项，与对错情况
         [0,[''],[['']],[[]]],
         [3,['','C语言的标准输出函数是？','包含C语言标准输出函数的头文件是？'],
             [
@@ -95,5 +96,20 @@ export class Globaldata{
                 [true,false,false]
             ]
         ]
-    ];
+    ];*/
+}
+
+export interface constData{
+    curlevelsNumber : number;
+    linesNumber : number[];
+    orgtextString: string[][];
+    altertextString: string[][];
+    changeableArray: boolean[][];
+    choiceArray:[number, string[], string[][], boolean[][]];
+    filenameString:string[];
+    answerArray: number[][];
+
+    dialoguesArray: [number,string[]][];
+    namesArray: string[];
+    totalperiodNumber: number;
 }

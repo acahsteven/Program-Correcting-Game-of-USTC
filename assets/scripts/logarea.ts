@@ -1,6 +1,6 @@
 
-import { _decorator, AudioClip, Component, instantiate, Label, Node, Prefab, Vec3, EventMouse, director } from 'cc';
-import { Globaldata } from './data';
+import { _decorator, AudioClip, Component, instantiate, Label, Node, Prefab, Vec3, EventMouse, director, resources, JsonAsset, error } from 'cc';
+import { constData, Globaldata } from './data';
 const { ccclass, property } = _decorator;
 
 /**
@@ -17,7 +17,12 @@ const { ccclass, property } = _decorator;
  
 @ccclass('logarea')
 export class logarea extends Component {
-    cur_lvlNumber:number = null;
+    jsonData:constData = null;
+    curLevel:number = null;
+    dialogues:[number,string[]][] = null;
+    totalperiod: number =null;
+    names:string[] = null;
+
     dialogsArray:string[] = null;
     loglenNumber:number = null;
     totallog:number = 0;
@@ -37,11 +42,29 @@ export class logarea extends Component {
     @property ({type:Node})
     private rollNode:Node = null;
 
+    onLoad () {
+        this.curLevel = Globaldata.curlevelsNumber;
+        resources.load(`data/level${this.curLevel}`, (err: any, res: JsonAsset) => {
+            if (err) {
+                error(err.message || err);
+                console.log('error');
+                return;
+            }
+            this.jsonData = res.json as constData;
+            console.log('onLoad');
+            this.dialogues = this.jsonData.dialoguesArray;
+            this.names = this.jsonData.namesArray;
+            this.totalperiod = this.jsonData.totalperiodNumber;
+        })
+    }
+
     start () {
-        this.cur_lvlNumber = Globaldata.curlevelsNumber;
         this.dialogLoad();
+        console.log('start start');
+        director.on('animation_finish',this.dialogLoad,this);
         this.rollNode.on(Node.EventType.MOUSE_WHEEL,this.roll,this);
         director.on('resumelog',this.dialogLoad,this);
+        console.log('start end');
     }
 
     // update (deltaTime: number) {
@@ -49,16 +72,23 @@ export class logarea extends Component {
     // }
 
     async dialogLoad () {
+        if(this.jsonData == null){
+            console.log('null!');
+            return;
+        }
         Globaldata.gamestateNumber = 0;
-        this.dialogsArray = Globaldata.dialoguesArray[this.cur_lvlNumber][Globaldata.gameperiodNumber];
-        this.loglenNumber = <number><any>this.dialogsArray[0];
-        for(let i=1;i<=this.loglenNumber;i++){
+        this.dialogsArray = this.dialogues[Globaldata.gameperiodNumber][1];
+        this.loglenNumber = this.dialogues[Globaldata.gameperiodNumber][0];
+        for(let i=0;i<this.loglenNumber;i++){
             await this.sleep(0.1);//按需调整
             this.dialogLoadOnce(i);
         }
         Globaldata.gamestateNumber = 1;
-        if(Globaldata.gameperiodNumber == 0)director.emit('dialogues_finished_base');
-        else if(Globaldata.gameperiodNumber == Globaldata.totalperiodNumber[Globaldata.curlevelsNumber]-1){
+        if(Globaldata.gameperiodNumber == 0){
+            director.off('animation_finish',this.dialogLoad,this);
+            director.emit('dialogues_finished_base');
+        }
+        else if(Globaldata.gameperiodNumber == this.totalperiod-1){
             director.emit('end_codearea');//待改
         }
         else{
@@ -89,7 +119,7 @@ export class logarea extends Component {
         }
         this.dialogsNode.addChild(dialogNode);
         //console.log(`log${i}:${dialogNode.position}`)
-        dialogNode.getChildByName("name").getComponent(Label).string = Globaldata.namesArray[nameindex];
+        dialogNode.getChildByName("name").getComponent(Label).string = this.names[nameindex];
         dialogNode.getChildByName("textarea").getChildByName("text").getComponent(Label).string = this.dialogsArray[i].slice(2);
         if(this.totallog>=5){
             let new_x = this.dialogsNode.position.x;

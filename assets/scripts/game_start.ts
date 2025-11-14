@@ -1,6 +1,7 @@
 
 import { _decorator, Component, Node, Input, input, director, game, } from 'cc';
 import { Globaldata } from './data';
+import { AudioManager } from './AudioManager';
 //import * as fs from 'fs';
 const { ccclass, property } = _decorator;
 /**
@@ -14,12 +15,13 @@ const { ccclass, property } = _decorator;
  * ManualUrl = https://docs.cocos.com/creator/3.4/manual/zh/
  *
  */
- 
+
 @ccclass('game_start')
 export class game_start extends Component {
     
     public level_which = 0;
 
+    
     @property({ type:Node })
     private button2Node: Node = null;
 
@@ -28,10 +30,19 @@ export class game_start extends Component {
 
     @property({ type:Node })
     private contentsNode: Node = null;
+    @property({ type:Node })
+    private startNode: Node = null;
+    @property({ type:Node })
+    private endNode: Node = null;
+    @property({type:AudioManager})
+    private audioManager: AudioManager = null;
+    @property ({type:Node})
+    private EscNode: Node = null;
 
     start () {
         //console.log(Globaldata.levels);
         this.contentsNode.active=false;
+        
         // let remoteUrl = "./save.txt";
         // assetManager.loadRemote(remoteUrl, function (err, textAsset) {
         
@@ -49,7 +60,15 @@ export class game_start extends Component {
     }
 
     levelButtonClick () {
-        this.contentsNode.active=true;
+        this.contentsNode.active = true;
+        this.startNode.active = false;
+        this.endNode.active = false;
+    }
+
+    quit () {
+        this.contentsNode.active = false;
+        this.startNode.active = true;
+        this.endNode.active = true;
     }
 
     begin (event,lvl) {

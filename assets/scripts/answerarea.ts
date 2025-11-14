@@ -1,6 +1,6 @@
 
-import { _decorator, Component, Node, EventTarget, Label, Toggle, Sprite, Color, director } from 'cc';
-import { Globaldata } from './data';
+import { _decorator, Component, Node, EventTarget, Label, Toggle, Sprite, Color, director, resources, error, JsonAsset } from 'cc';
+import { constData, Globaldata } from './data';
 
 const { ccclass, property } = _decorator;
 const eventTarget = new EventTarget();
@@ -20,6 +20,7 @@ const eventTarget = new EventTarget();
 export class answerarea extends Component {
     checkArray = [0,0,0];
     period = 0;
+    choiceArray = null;
 
     @property ({type:Node})
     answerareaNode:Node = null;
@@ -31,25 +32,28 @@ export class answerarea extends Component {
     onLoad () {
         this.enterNode.active = false;
         this.panelNode.active = false;
-        //console.log(this.panelNode.active);
-        //this.next(1);
+        resources.load(`data/level${Globaldata.curlevelsNumber}`, (err: any, res: JsonAsset) => {
+                if (err) {
+                    console.log('error')
+                    error(err.message || err);
+                    return;
+            }
+            const jsonData = res.json as constData;
+            //console.log(jsonData.choiceArray);
+            this.choiceArray = jsonData.choiceArray;
+        })
+    }
+
+    start () {
+        console.log('start end');
         director.on('resume',this.next,this);
     }
 
     next () {
-        this.period = Globaldata.gameperiodNumber;
+        console.log(this);
+        this.period = Globaldata.gameperiodNumber-1;
         this.panelNode.active = true;
-        this.checkArray[0] = this.checkArray[1] = this.checkArray[2] = 0;
-        let ToggleA = this.panelNode.getChildByName("Toggle A");
-        let ToggleB = this.panelNode.getChildByName("Toggle B");
-        let ToggleC = this.panelNode.getChildByName("Toggle C");
-        ToggleA.getComponent(Toggle).isChecked = false;
-        ToggleB.getComponent(Toggle).isChecked = false;
-        ToggleC.getComponent(Toggle).isChecked = false;
-        this.panelNode.getChildByName("question").getComponent(Label).string = Globaldata.choiceArray[Globaldata.curlevelsNumber][1][this.period];
-        ToggleA.getChildByName("answerA").getComponent(Label).string = Globaldata.choiceArray[Globaldata.curlevelsNumber][2][this.period][0];
-        ToggleB.getChildByName("answerB").getComponent(Label).string = Globaldata.choiceArray[Globaldata.curlevelsNumber][2][this.period][1];
-        ToggleC.getChildByName("answerC").getComponent(Label).string = Globaldata.choiceArray[Globaldata.curlevelsNumber][2][this.period][2];
+        this.restore(1);
     }
 
     checked (event,index) {
@@ -67,12 +71,16 @@ export class answerarea extends Component {
         for(let i=0;i<3;i++){
             if(this.checkArray[i] == 1){
                 let c = String.fromCharCode(65+i);
-                if(Globaldata.choiceArray[Globaldata.curlevelsNumber][3][this.period][i] == true){
+                if(this.choiceArray[3][this.period][i] == true){
                     this.panelNode.getChildByName("Toggle "+c).getChildByName('result').getComponent(Sprite).color = new Color(0,255,0,255);
                     this.enterNode.active = false;
                     director.emit("resumelog");
                 }
-                else this.panelNode.getChildByName("Toggle "+c).getChildByName('result').getComponent(Sprite).color = new Color(255,0,0,255);
+                else{
+                    this.panelNode.getChildByName("Toggle "+c).getChildByName('result').getComponent(Sprite).color = new Color(255,0,0,255);
+                    this.restore(0);
+                    return;
+                }
             }
         }
         director.on('hide_answerarea',this.hide,this);
@@ -85,6 +93,23 @@ export class answerarea extends Component {
         }
         this.panelNode.active = false;
         director.off('hide_answerarea',this.hide,this);
+    }
+
+    restore (stat) {
+        this.enterNode.active = false;
+        this.checkArray[0] = this.checkArray[1] = this.checkArray[2] = 0;
+        let ToggleA = this.panelNode.getChildByName("Toggle A");
+        let ToggleB = this.panelNode.getChildByName("Toggle B");
+        let ToggleC = this.panelNode.getChildByName("Toggle C");
+        ToggleA.getComponent(Toggle).isChecked = false;
+        ToggleB.getComponent(Toggle).isChecked = false;
+        ToggleC.getComponent(Toggle).isChecked = false;
+        if(stat == 1){
+            this.panelNode.getChildByName("question").getComponent(Label).string = this.choiceArray[1][this.period];
+            ToggleA.getChildByName("answerA").getComponent(Label).string = this.choiceArray[2][this.period][0];
+            ToggleB.getChildByName("answerB").getComponent(Label).string = this.choiceArray[2][this.period][1];
+            ToggleC.getChildByName("answerC").getComponent(Label).string = this.choiceArray[2][this.period][2];
+        }
     }
 }
 

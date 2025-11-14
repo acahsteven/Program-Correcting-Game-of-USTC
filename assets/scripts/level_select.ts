@@ -1,5 +1,6 @@
 
 import { _decorator, Component, director, EventMouse, Node, Label} from 'cc';
+import { Globaldata } from './data';
 const { ccclass, property } = _decorator;
 
 /**
@@ -16,8 +17,6 @@ const { ccclass, property } = _decorator;
  
 @ccclass('level_select')
 export class level_select extends Component {
-    @property ({type:Node})
-    private EscNode: Node = null;
 
     @property ({type:Node})
     private ContentsNode: Node = null;
@@ -27,16 +26,15 @@ export class level_select extends Component {
 
     @property ({type:Label})
     private informationLabel: Label = null;
+
     start () {
         director.on('show',this.stringShow,this);
     }
 
-    quit () {
-        this.ContentsNode.active = false;
-    }
-
-    begin ( num:string ) {
-
+    begin ( event,num:number ) {
+        Globaldata.curlevelsNumber = num;
+        console.log(Globaldata.curlevelsNumber);
+        director.loadScene('game_main');
     }
 
     stringShow (name) {

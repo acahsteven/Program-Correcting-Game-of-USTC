@@ -19,7 +19,7 @@ const eventtarget = new EventTarget();
 export class code_click extends Component {
 
     @property ({type:Label})
-    private  codelineNode: Label = null;
+    private codelineNode: Label = null;
 
     start () {
         this.node.on(Node.EventType.MOUSE_DOWN,this.onClick,this);
