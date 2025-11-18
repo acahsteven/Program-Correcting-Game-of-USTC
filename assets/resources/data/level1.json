@@ -3,34 +3,34 @@
     "linesNumber": [5, 6],
     "orgtextString": [
         [
-            " 1    #include<stdio.h>",
-            " 2    int main(){",
-            " 3        print(\"hello,world!\");",
-            " 4        return 0;",
-            " 5    }"
+            "#include<stdio.h>",
+            "int main(){",
+            "    print(\"hello,world!\");",
+            "    return 0;",
+            "}"
         ],
         [
-            " 1    #include<iostream>",
-            " 2    #define int long long",
-            " 3    signed main(){",
-            " 4        std::cout<<\"hello,\"<\"world!\";",
-            " 5        return 0;",
-            " 6    }"
+            "#include<iostream>",
+            "#define int long long",
+            "signed main(){",
+            "    std::cout<<\"hello,\"<\"world!\";",
+            "    return 0;",
+            "}"
         ]
     ],
     "altertextString": [
         [
             "",
             "",
-            " 3        printf(\"hello,world!\");",
+            "    printf(\"hello,world!\");",
             "",
             ""
         ],
         [
-            " 1    #include<stdio.h>",
+            "#include<stdio.h>",
             "",
-            " 3    int main(){",
-            " 4        printf(\"hello,world!\");",
+            "int main(){",
+            "    printf(\"hello,world!\");",
             "",
             ""
         ]

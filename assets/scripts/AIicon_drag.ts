@@ -6,7 +6,7 @@ const { ccclass, property } = _decorator;
 
 @ccclass('AIicon_drag')
 export class AIicon_drag extends Component {
-    private flag = 0;
+    private flag = 0;//判断是否已移动
     private iconTween: Tween<Node> = null;
 
     @property ({type:Node})
@@ -22,7 +22,7 @@ export class AIicon_drag extends Component {
     // }
     
     touch (event: EventMouse) {
-        if(Globaldata.gamestateNumber == 0)return;
+        if(Globaldata.gamestateNumber <= 2)return;
         if(this.flag != 0) return;
         this.flag = 1;
         this.node.on(Node.EventType.MOUSE_MOVE,this.drag,this);
@@ -42,7 +42,7 @@ export class AIicon_drag extends Component {
     }
 
     click () {
-        if(Globaldata.gamestateNumber == 0)return;
+        if(Globaldata.gamestateNumber <= 2)return;
         if(this.flag == 1){
             director.emit('click2');
         }

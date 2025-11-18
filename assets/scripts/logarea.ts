@@ -130,6 +130,7 @@ export class logarea extends Component {
     }
 
     roll (event: EventMouse) {
+        if(Globaldata.gamestateNumber == 0||Globaldata.gamestateNumber == 2)return;
         let abs: number = event.getScrollY();
         let flag: number;
         if (abs < 0) {
@@ -147,7 +148,7 @@ export class logarea extends Component {
     }
     
     back () {
-        if(Globaldata.gamestateNumber == 0)return;
+        if(Globaldata.gamestateNumber == 0||Globaldata.gamestateNumber == 2)return;
         this.logareaNode.active = false;
         this.smalliconNode.active = true;
     }

@@ -1,0 +1,149 @@
+[
+  {
+    "__type__": "cc.AnimationClip",
+    "_name": "runstatus1",
+    "_objFlags": 0,
+    "_native": "",
+    "sample": 60,
+    "speed": 10,
+    "wrapMode": 1,
+    "enableTrsBlending": false,
+    "_duration": 4.25,
+    "_hash": 500763545,
+    "_tracks": [
+      {
+        "__id__": 1
+      }
+    ],
+    "_exoticAnimation": null,
+    "_events": []
+  },
+  {
+    "__type__": "cc.animation.ObjectTrack",
+    "_binding": {
+      "__type__": "cc.animation.TrackBinding",
+      "path": {
+        "__id__": 2
+      }
+    },
+    "_channel": {
+      "__id__": 4
+    }
+  },
+  {
+    "__type__": "cc.animation.TrackPath",
+    "_paths": [
+      {
+        "__id__": 3
+      },
+      "string"
+    ]
+  },
+  {
+    "__type__": "cc.animation.ComponentPath",
+    "component": "cc.Label"
+  },
+  {
+    "__type__": "cc.animation.Channel",
+    "_curve": {
+      "__id__": 5
+    }
+  },
+  {
+    "__type__": "cc.ObjectCurve",
+    "_times": [
+      0,
+      0.08333333333333333,
+      0.16666666666666666,
+      0.25,
+      0.3333333333333333,
+      0.4166666666666667,
+      0.5,
+      0.5833333333333334,
+      0.6666666666666666,
+      0.75,
+      0.8333333333333334,
+      0.9166666666666666,
+      1,
+      1.0833333333333333,
+      1.1666666666666667,
+      1.25,
+      1.3333333333333333,
+      1.4166666666666667,
+      1.5,
+      1.5833333333333333,
+      1.6666666666666667,
+      1.75,
+      1.8333333333333333,
+      1.9166666666666667,
+      2,
+      2.0833333333333335,
+      2.1666666666666665,
+      2.25,
+      2.3333333333333335,
+      2.4166666666666665,
+      2.5,
+      2.5833333333333335,
+      2.6666666666666665,
+      2.75,
+      2.8333333333333335,
+      2.9166666666666665,
+      3,
+      3.0833333333333335,
+      3.25,
+      3.4166666666666665,
+      3.5833333333333335,
+      3.75,
+      3.9166666666666665,
+      4.083333333333333,
+      4.25
+    ],
+    "_values": [
+      ">> oncompile |",
+      ">> oncompile \\",
+      ">> oncompile --",
+      ">> oncompile /",
+      ">> oncompile |",
+      ">> oncompile \\",
+      ">> oncompile --",
+      ">> oncompile /",
+      ">> oncompile |",
+      ">> oncompile \\",
+      ">> oncompile --",
+      ">> oncompile /",
+      ">> oncompile * |",
+      ">> oncompile * \\",
+      ">> oncompile * --",
+      ">> oncompile * /",
+      ">> oncompile * |",
+      ">> oncompile * \\",
+      ">> oncompile * --",
+      ">> oncompile * /",
+      ">> oncompile * |",
+      ">> oncompile * \\",
+      ">> oncompile * --",
+      ">> oncompile * /",
+      ">> oncompile * * |",
+      ">> oncompile * * \\",
+      ">> oncompile * * --",
+      ">> oncompile * * /",
+      ">> oncompile * * |",
+      ">> oncompile * * \\",
+      ">> oncompile * * --",
+      ">> oncompile * * /",
+      ">> oncompile * * |",
+      ">> oncompile * * \\",
+      ">> oncompile * * --",
+      ">> oncompile * * /",
+      ">> oncompile * * *",
+      ">> oncompile * * *\n>> compile succeeded",
+      ">> oncompile * * *\n>> compile succeeded\n>> onrun ~",
+      ">> oncompile * * *\n>> compile succeeded\n>> onrun ~~\n>> task1:AC",
+      ">> oncompile * * *\n>> compile succeeded\n>> onrun ~~~\n>> task1:AC\n>> task2:AC",
+      ">> oncompile * * *\n>> compile succeeded\n>> onrun ~~~~\n>> task1:AC\n>> task2:AC\n>> task3:AC",
+      ">> oncompile * * *\n>> compile succeeded\n>> onrun ~~~~~\n>> task1:AC\n>> task2:AC\n>> task3:AC\n>> task4:AC",
+      ">> oncompile * * *\n>> compile succeeded\n>> onrun ~~~~~~\n>> task1:AC\n>> task2:AC\n>> task3:AC\n>> task4:AC\n>> task5:AC",
+      ">> oncompile * * *\n>> compile succeeded\n>> onrun ~~~~~~\n>> task1:AC\n>> task2:AC\n>> task3:AC\n>> task4:AC\n>> task5:AC\n>> all tasks finished\n>> Congratulations!"
+    ]
+  }
+]

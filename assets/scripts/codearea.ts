@@ -1,5 +1,5 @@
 
-import { _decorator, Component, director, EventMouse, Node, Vec3, Label, Color, instantiate, Prefab, EventTarget, JsonAsset, resources, error} from 'cc';
+import { _decorator, Component, director, EventMouse, Node, Vec3, Label, Color, instantiate, Prefab, EventTarget, JsonAsset, resources, error, Animation} from 'cc';
 import { Globaldata,constData } from './data';
 const { ccclass, property } = _decorator;
 const eventTarget = new EventTarget();
@@ -40,6 +40,10 @@ export class codearea extends Component {
     private filenameLabel:Label = null;
     @property ({type:JsonAsset})
     private dataJson:JsonAsset = null!;
+    @property ({type:Node})
+    private runstatusNode:Node = null;
+    @property ({type:Node})
+    private AINode:Node = null;
 
     onLoad () {
         this.curLevel = Globaldata.curlevelsNumber;
@@ -79,6 +83,9 @@ export class codearea extends Component {
 
     initialize () {
         console.log('initialize start');
+        this.runstatusNode.active = false;
+        this.codelinesNode.active = true;
+        this.AINode.active = true;
         this.filenameLabel.string = this.fileName[Globaldata.gameperiodNumber];
         this.textArray = [this.orgText[Globaldata.gameperiodNumber],this.alterText[Globaldata.gameperiodNumber]];
         this.line = this.lines[Globaldata.gameperiodNumber];
@@ -89,15 +96,16 @@ export class codearea extends Component {
             let codeline = instantiate(this.codePrefab);
             codeline.name = `codeline${i+1}`;
             this.codelinesNode.addChild(codeline);
-            codeline.getComponent(Label).string = this.textArray[0][i];
+            codeline.getComponent(Label).string = ` ${i+1}    `+this.textArray[0][i];
             let pos = new Vec3(0,cur_y-40*i,0);
             codeline.position = pos;
             this.statArray.push(0);
         }
+        Globaldata.gamestateNumber = 3;
         //console.log(this.codelinesNode);
     }
     roll (event: EventMouse) {
-        if(Globaldata.gamestateNumber == 0)return;
+        if(Globaldata.gamestateNumber <= 2)return;
         let abs: number = event.getScrollY();
         let flag: number;
         if (abs < 0) {
@@ -116,7 +124,7 @@ export class codearea extends Component {
 
     run () {
         console.log(this);
-        if(Globaldata.gamestateNumber == 0)return;
+        if(Globaldata.gamestateNumber <= 2)return;
         console.log("run start");
         let ac = true;
         for(let i = 0;i<this.line;i++){
@@ -124,9 +132,7 @@ export class codearea extends Component {
         }
         if(ac){
             //this.finishNode.active = true;
-            Globaldata.gameperiodNumber++;
-            director.emit('resume');
-            console.log("AC");
+            this.animation();
         }
         else{
             console.log("WA");
@@ -134,7 +140,7 @@ export class codearea extends Component {
     }
 
     clickJudge (name: string) {
-        if(Globaldata.gamestateNumber == 0)return;
+        if(Globaldata.gamestateNumber <= 2)return;
         let children = this.codelinesNode.children;
         children.forEach(childNode => {
             if(childNode.name == name){
@@ -144,7 +150,7 @@ export class codearea extends Component {
                     // console.log(this.textArray);
                     // console.log(this.textArray[stat^1]);
                     // console.log(this.textArray[stat^1][index]);
-                    childNode.getComponent(Label).string = this.textArray[stat^1][index];
+                    childNode.getComponent(Label).string = ` ${childNode.name.slice(8)}    `+this.textArray[stat^1][index];
                     this.statArray[index] = stat^1;
                     if(this.AI_assist == 1){
                         if(this.statArray[index] == this.answerArray[index]){
@@ -160,13 +166,13 @@ export class codearea extends Component {
     }
 
     back () {
-        if(Globaldata.gamestateNumber == 0)return;
+        if(Globaldata.gamestateNumber <= 2)return;
         this.areaNode.active = false;
         this.smalliconNode.active = true;
     }
 
     AIcheck () {
-        if(Globaldata.gamestateNumber == 0)return;
+        if(Globaldata.gamestateNumber <= 2)return;
         if(this.AI_assist == 0){
             let children = this.codelinesNode.children;
             children.forEach(childNode => {
@@ -205,5 +211,24 @@ export class codearea extends Component {
     end () {
         Globaldata.gamestateNumber = 0;
         this.finishNode.active = true;
+    }
+
+    async animation () {
+        this.runstatusNode.active = true;
+        this.codelinesNode.active = false;
+        this.AINode.active = false;
+        let ani = this.runstatusNode.getChildByName("Ani").getComponent(Animation);
+        console.log(ani.clips[0]);
+        ani.play();
+        await this.sleep(ani.clips[0].duration/ani.clips[0].speed);//speed测试完记得改回去#
+        Globaldata.gameperiodNumber++;
+        director.emit('resume');
+        console.log("AC");
+    }
+
+    sleep(duration: number): Promise<void> {
+        return new Promise<void>((resolve) => {
+            this.scheduleOnce(resolve, duration);
+        });
     }
 }
