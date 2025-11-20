@@ -108,6 +108,7 @@ export interface constData{
     choiceArray:[number, string[], string[][], boolean[][]];
     filenameString:string[];
     answerArray: number[][];
+    errorinformationString: string[][];
 
     dialoguesArray: [number,string[]][];
     namesArray: string[];

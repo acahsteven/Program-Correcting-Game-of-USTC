@@ -44,6 +44,10 @@
         [1, 0, 0, 1, 0, 0]
     ],
     "filenameString": ["st3_hello_world.c", "st2_hello_world.c"],
+    "errorinformationString": [
+        ["implicit declaration of function 'print'"],
+        []
+    ],
 
     "totalperiodNumber": 3,
     "namesArray": ["whh","st1","st2","st3","st4"],

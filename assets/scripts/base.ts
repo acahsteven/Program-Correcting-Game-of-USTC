@@ -18,7 +18,13 @@ const { ccclass, property } = _decorator;
  
 @ccclass('base')
 export class base extends Component {
+    tmpstate:number = null;
     
+
+    @property ({type:Node})
+    private windowsNode = null;
+    @property ({type:Node})
+    private exitNode = null;
 
     @property ({type:Node})
     private smallicon1Node = null;
@@ -36,6 +42,7 @@ export class base extends Component {
     private startAnimationNode = null;
 
     start () {
+        this.exitNode.active = false;
         this.codeareaNode.active = false;
         this.startAnimationNode.active = false;
         this.smallicon1Node.active = false;
@@ -70,11 +77,13 @@ export class base extends Component {
         console.log('animation finish');
     }
     large1 () {
+        if(Globaldata.gamestateNumber == 0)return;
         this.smallicon1Node.active = false;
         this.codeareaNode.active = true;
     }
 
     large2 () {
+        if(Globaldata.gamestateNumber == 0)return;
         this.smallicon2Node.active = false;
         this.logareaNode.active = true;
     }
@@ -82,6 +91,26 @@ export class base extends Component {
     show () {
         this.codeareaNode.active = true;
         director.off('dialogues_finished',this.show,this);
+    }
+
+    turn_off () {
+        if(Globaldata.gamestateNumber == 0)return;
+        this.exitNode.active = true;
+        this.tmpstate = Globaldata.gamestateNumber;
+        Globaldata.gamestateNumber = 0;
+    }
+
+    exit (event,data) {
+        if(data == 1){
+            Globaldata.curlevelsNumber = 0;
+            Globaldata.gameperiodNumber = 0;
+            Globaldata.gamestateNumber = 0;
+            director.loadScene("game_start");
+        }
+        else{
+            this.exitNode.active = false;
+            Globaldata.gamestateNumber = this.tmpstate;
+        }
     }
 }
 

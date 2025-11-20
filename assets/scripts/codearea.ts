@@ -14,6 +14,7 @@ export class codearea extends Component {
     changeableArray: boolean[][] = null;
     answer: number[][] = null;
     curLevel: number = 0;
+    errorInformation:string[][] = null;
 
     line: number = 5;
     AI_assist:number = 0;
@@ -44,6 +45,8 @@ export class codearea extends Component {
     private runstatusNode:Node = null;
     @property ({type:Node})
     private AINode:Node = null;
+    @property ({type:Label})
+    private errorinfNode:Node = null;
 
     onLoad () {
         this.curLevel = Globaldata.curlevelsNumber;
@@ -64,6 +67,7 @@ export class codearea extends Component {
         this.lines = this.jsonData.linesNumber;
         this.changeableArray =this.jsonData.changeableArray;
         this.answer = this.jsonData.answerArray;
+        this.errorInformation = this.jsonData.errorinformationString;
         this.finishNode.active = false;
 
         this.initialize();
@@ -126,17 +130,11 @@ export class codearea extends Component {
         console.log(this);
         if(Globaldata.gamestateNumber <= 2)return;
         console.log("run start");
-        let ac = true;
+        let ac:boolean = true;
         for(let i = 0;i<this.line;i++){
             if(this.statArray[i]!=this.answerArray[i]) ac = false;
         }
-        if(ac){
-            //this.finishNode.active = true;
-            this.animation();
-        }
-        else{
-            console.log("WA");
-        }
+        this.animation(ac);
     }
 
     clickJudge (name: string) {
@@ -213,17 +211,43 @@ export class codearea extends Component {
         this.finishNode.active = true;
     }
 
-    async animation () {
+    async animation (ac: boolean) {
         this.runstatusNode.active = true;
         this.codelinesNode.active = false;
         this.AINode.active = false;
+        this.errorinfNode.active = false;
         let ani = this.runstatusNode.getChildByName("Ani").getComponent(Animation);
         console.log(ani.clips[0]);
-        ani.play();
-        await this.sleep(ani.clips[0].duration/ani.clips[0].speed);//speed测试完记得改回去#
-        Globaldata.gameperiodNumber++;
-        director.emit('resume');
-        console.log("AC");
+        let clip:string;
+        let ind:number;
+        if(ac == true){
+            ind = 0;
+            clip = ani.clips[0].name;
+        }
+        else{
+            ind = 1;
+            clip = ani.clips[1].name;
+        }
+        ani.play(clip);
+        await this.sleep(ani.clips[ind].duration/ani.clips[ind].speed);//speed测试完记得改回去#
+        if(ac == true){
+            Globaldata.gameperiodNumber++;
+            director.emit('resume');
+        }
+        else{
+            this.errorinfNode.active = true;
+            console.log(this.errorInformation);
+            this.errorinfNode.getComponent(Label).string = this.errorInformation[Globaldata.gameperiodNumber][0];//错误类型待组合
+            this.runstatusNode.on(Node.EventType.MOUSE_DOWN,this.back_to_codelines,this);
+        }
+        //console.log("AC");
+    }
+
+    back_to_codelines () {
+        this.runstatusNode.off(Node.EventType.MOUSE_DOWN,this.back_to_codelines,this);
+        this.runstatusNode.active = false;
+        this.codelinesNode.active = true;
+        this.AINode.active = true;
     }
 
     sleep(duration: number): Promise<void> {

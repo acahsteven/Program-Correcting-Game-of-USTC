@@ -57,6 +57,15 @@ export class answerarea extends Component {
     }
 
     checked (event,index) {
+        if(Globaldata.gamestateNumber == 0 || Globaldata.gamestateNumber == 2){
+            let toggle = this.panelNode.getComponentsInChildren(Toggle);
+            let flag = toggle[index].isChecked;
+            if(flag == true){
+                toggle[index].isChecked = false;
+            }
+            else toggle[index].isChecked = true;
+            return;
+        }
         this.checkArray[index] = this.checkArray[index]^1;
         for(let i=0;i<3;i++){
             let c:string = String.fromCharCode(65+i);
