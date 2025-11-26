@@ -11,9 +11,9 @@
         ],
         [
             "#include<iostream>",
-            "#define int long long",
-            "signed main(){",
-            "    std::cout<<\"hello,\"<\"world!\";",
+            "#define STR \"hello,world!\"",
+            "int main(){",
+            "    std::cout<<STR;",
             "    return 0;",
             "}"
         ]
@@ -29,15 +29,15 @@
         [
             "#include<stdio.h>",
             "",
-            "int main(){",
-            "    printf(\"hello,world!\");",
+            "",
+            "    printf(STR);",
             "",
             ""
         ]
     ],
     "changeableArray": [
         [false, false, true, false, false],
-        [true, false, true, true, false, false]
+        [true, false, false, true, false, false]
     ],
     "answerArray": [
         [0, 0, 1, 0, 0],
@@ -45,15 +45,23 @@
     ],
     "filenameString": ["st3_hello_world.c", "st2_hello_world.c"],
     "errorinformationString": [
-        ["implicit declaration of function 'print'"],
-        []
+        [
+            [0,null],
+            [1,"implicit declaration of function 'print'"]
+        ],
+        [
+            [0,null],
+            [1,"expected expression before ':' token"],
+            [1,"iostream: No such file or directory"],
+            [1,"iostream: No such file or directory"]
+        ]
     ],
 
     "totalperiodNumber": 3,
     "namesArray": ["whh","st1","st2","st3","st4"],
     "dialoguesArray": [
         [
-            7,
+            8,
             [
                 "0 同学们，今天是程序设计课程的第一课。",
                 "0 请大家按课程内容完成编译环境的配置，并完成第一个C语言的程序的编写。",
@@ -61,6 +69,7 @@
                 "1 收到",
                 "2 收到",
                 "3 猪脚，我的代码怎么弄都编译错误，你能帮忙看看吗？已经发给你了",
+                "3 是助教，不好意思打错了",
                 "0 稍等，我看一下"
             ]
         ],
@@ -95,5 +104,10 @@
             [false, true, false],
             [true, false, false]
         ]
-    ]
+    ],
+
+    "titleString":"1.Hello World!",
+    "descriptionString":"编写你的第一个c语言程序，使其在终端输出\"hello world!\"。",
+    "inputString":"样例输入：\n无",
+    "outputString":"样例输出：\n  1    hello world!"
 }

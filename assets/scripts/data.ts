@@ -1,4 +1,5 @@
 export class Globaldata{
+    public static jsonData:constData = null;
     public static gamestateNumber = 0;//等于0时为全部操作禁止，等于1时左侧可以，等于2时右侧可以，等于3时均可以
     public static gameperiodNumber = 0;
     public static curlevelsNumber = 1;//直接测试时需手动调整
@@ -108,9 +109,14 @@ export interface constData{
     choiceArray:[number, string[], string[][], boolean[][]];
     filenameString:string[];
     answerArray: number[][];
-    errorinformationString: string[][];
+    errorinformationString: [number,string][][];
 
     dialoguesArray: [number,string[]][];
     namesArray: string[];
     totalperiodNumber: number;
+
+    titleString:string;
+    descriptionString:string;
+    inputString:string;
+    outputString:string;
 }

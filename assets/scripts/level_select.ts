@@ -1,6 +1,6 @@
 
-import { _decorator, Component, director, EventMouse, Node, Label} from 'cc';
-import { Globaldata } from './data';
+import { _decorator, Component, director, EventMouse, Node, Label, resources, JsonAsset, error} from 'cc';
+import { constData, Globaldata } from './data';
 const { ccclass, property } = _decorator;
 
 /**
@@ -31,10 +31,26 @@ export class level_select extends Component {
         director.on('show',this.stringShow,this);
     }
 
-    begin ( event,num:number ) {
-        Globaldata.curlevelsNumber = num;
-        console.log(Globaldata.curlevelsNumber);
+    async begin (event,lvl) {
+        // console.log(lvl);
+        // console.log('onload');
+        Globaldata.curlevelsNumber = lvl;
+        resources.load(`data/level${lvl}`, (err: any, res: JsonAsset) => {
+                    if (err) {
+                        error(err.message || err);
+                        return;
+                    }
+                    Globaldata.jsonData = res.json as constData;
+        })
+        while(Globaldata.jsonData == null){await this.sleep(0.1);}
+        console.log(Globaldata.jsonData != null);
         director.loadScene('game_main');
+    }
+
+    sleep(duration: number): Promise<void> {
+        return new Promise<void>((resolve) => {
+            this.scheduleOnce(resolve, duration);
+        });
     }
 
     stringShow (name) {

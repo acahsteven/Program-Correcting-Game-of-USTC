@@ -22,6 +22,7 @@ export class AIicon_drag extends Component {
     // }
     
     touch (event: EventMouse) {
+        console.log("AItouch "+`${Globaldata.gamestateNumber}`);
         if(Globaldata.gamestateNumber <= 2)return;
         if(this.flag != 0) return;
         this.flag = 1;
@@ -41,10 +42,10 @@ export class AIicon_drag extends Component {
             .start();
     }
 
-    click () {
+    click (event: EventMouse) {
         if(Globaldata.gamestateNumber <= 2)return;
         if(this.flag == 1){
-            director.emit('click2');
+            director.emit('click2',event);
         }
         this.node.off(Node.EventType.MOUSE_MOVE,this.drag,this);
         this.node.off(Node.EventType.MOUSE_LEAVE,this.out,this);

@@ -32,16 +32,17 @@ export class answerarea extends Component {
     onLoad () {
         this.enterNode.active = false;
         this.panelNode.active = false;
-        resources.load(`data/level${Globaldata.curlevelsNumber}`, (err: any, res: JsonAsset) => {
-                if (err) {
-                    console.log('error')
-                    error(err.message || err);
-                    return;
-            }
-            const jsonData = res.json as constData;
-            //console.log(jsonData.choiceArray);
-            this.choiceArray = jsonData.choiceArray;
-        })
+        // resources.load(`data/level${Globaldata.curlevelsNumber}`, (err: any, res: JsonAsset) => {
+        //         if (err) {
+        //             console.log('error')
+        //             error(err.message || err);
+        //             return;
+        //     }
+        //     const jsonData = res.json as constData;
+        //     console.log(jsonData.choiceArray);
+        //     this.choiceArray = jsonData.choiceArray;
+        // })
+        this.choiceArray = Globaldata.jsonData.choiceArray;
     }
 
     start () {

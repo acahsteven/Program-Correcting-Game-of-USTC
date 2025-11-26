@@ -14,10 +14,10 @@ export class codearea extends Component {
     changeableArray: boolean[][] = null;
     answer: number[][] = null;
     curLevel: number = 0;
-    errorInformation:string[][] = null;
+    errorInformation:[number,string][] = null;
 
     line: number = 5;
-    AI_assist:number = 0;
+    AI_assist:number = 1;
 
     changeableLines: boolean[];
 
@@ -49,25 +49,24 @@ export class codearea extends Component {
     private errorinfNode:Node = null;
 
     onLoad () {
+        
+        // resources.load(`data/level${this.curLevel}`, (err: any, res: JsonAsset) => {
+        //     if (err) {
+        //         error(err.message || err);
+        //         return;
+        //     }
+        //     this.jsonData = res.json as constData;
+        // })
         this.curLevel = Globaldata.curlevelsNumber;
-        resources.load(`data/level${this.curLevel}`, (err: any, res: JsonAsset) => {
-            if (err) {
-                error(err.message || err);
-                return;
-            }
-            this.jsonData = res.json as constData;
-        })
-    }
-
-    start () {
-        console.log(this.jsonData);
+        this.jsonData = Globaldata.jsonData;
+        console.log("onload");
+        console.log("start start");
         this.fileName = this.jsonData.filenameString;
         this.orgText = this.jsonData.orgtextString;
         this.alterText = this.jsonData.altertextString;
         this.lines = this.jsonData.linesNumber;
         this.changeableArray =this.jsonData.changeableArray;
         this.answer = this.jsonData.answerArray;
-        this.errorInformation = this.jsonData.errorinformationString;
         this.finishNode.active = false;
 
         this.initialize();
@@ -79,6 +78,10 @@ export class codearea extends Component {
         director.on('end_codearea',this.end,this);//待改
 
         console.log('start end');
+    }
+
+    start () {
+        
     }
 
     // update (deltaTime: number) {
@@ -95,6 +98,7 @@ export class codearea extends Component {
         this.line = this.lines[Globaldata.gameperiodNumber];
         this.changeableLines = this.changeableArray[Globaldata.gameperiodNumber];
         this.answerArray = this.answer[Globaldata.gameperiodNumber];
+        this.errorInformation = this.jsonData.errorinformationString[Globaldata.gameperiodNumber];
         let cur_y=300;
         for(let i=0;i<this.line;i++){
             let codeline = instantiate(this.codePrefab);
@@ -105,7 +109,6 @@ export class codearea extends Component {
             codeline.position = pos;
             this.statArray.push(0);
         }
-        Globaldata.gamestateNumber = 3;
         //console.log(this.codelinesNode);
     }
     roll (event: EventMouse) {
@@ -127,12 +130,11 @@ export class codearea extends Component {
     }
 
     run () {
-        console.log(this);
         if(Globaldata.gamestateNumber <= 2)return;
         console.log("run start");
-        let ac:boolean = true;
+        let ac:number = 0;
         for(let i = 0;i<this.line;i++){
-            if(this.statArray[i]!=this.answerArray[i]) ac = false;
+            if(this.changeableLines[i] == true && this.answerArray[i]!=-1)ac = ac*2+this.statArray[i]^this.answerArray[i];//压缩状态
         }
         this.animation(ac);
     }
@@ -150,8 +152,8 @@ export class codearea extends Component {
                     // console.log(this.textArray[stat^1][index]);
                     childNode.getComponent(Label).string = ` ${childNode.name.slice(8)}    `+this.textArray[stat^1][index];
                     this.statArray[index] = stat^1;
-                    if(this.AI_assist == 1){
-                        if(this.statArray[index] == this.answerArray[index]){
+                    if(this.AI_assist == 2){
+                        if(this.statArray[index] == this.answerArray[index] || this.answerArray[index] == -1){
                             childNode.getComponent(Label).color = new Color(0,255,0,255);
                         }
                         else{
@@ -169,32 +171,33 @@ export class codearea extends Component {
         this.smalliconNode.active = true;
     }
 
-    AIcheck () {
+    AIcheck (event: EventMouse) {
+        console.log("AIcheck "+`${Globaldata.gamestateNumber}`);
         if(Globaldata.gamestateNumber <= 2)return;
-        if(this.AI_assist == 0){
-            let children = this.codelinesNode.children;
+        let stat = event.getButton();
+        console.log(stat);
+        let children = this.codelinesNode.children;
+        if(stat == 0||stat == 2){
+            if(this.AI_assist == stat)this.AI_assist = 1;
+            else this.AI_assist = stat;
             children.forEach(childNode => {
                 let index: number = <number> <unknown>childNode.name.slice(8) - 1;
                 if(this.changeableLines[index] == true){
-                    if(this.statArray[index] == this.answerArray[index]){
-                        childNode.getComponent(Label).color = new Color(0,255,0,255);
+                    if(this.AI_assist == 1){childNode.getComponent(Label).color = new Color(0,0,0,255);}
+                    else if(stat == 0){
+                        childNode.getComponent(Label).color = new Color(0,0,255,255);
                     }
                     else{
-                        childNode.getComponent(Label).color = new Color(255,0,0,255);
+                        if(this.statArray[index] == this.answerArray[index] || this.answerArray[index] == -1){
+                            childNode.getComponent(Label).color = new Color(0,255,0,255);
+                        }
+                        else{
+                            childNode.getComponent(Label).color = new Color(255,0,0,255);
+                        }
                     }
                 }
             });
         }
-        else{
-            let children = this.codelinesNode.children;
-            children.forEach(childNode => {
-                let index: number = <number> <unknown>childNode.name.slice(8);
-                if(this.changeableLines[index-1] == true){
-                    childNode.getComponent(Label).color = new Color(0,0,0,255);
-                }
-            });
-        }
-        this.AI_assist = this.AI_assist ^ 1;
     }
 
     next () {
@@ -211,40 +214,38 @@ export class codearea extends Component {
         this.finishNode.active = true;
     }
 
-    async animation (ac: boolean) {
+    async animation (ac: number) {
         this.runstatusNode.active = true;
         this.codelinesNode.active = false;
         this.AINode.active = false;
-        this.errorinfNode.active = false;
+        this.errorinfNode.getComponent(Label).string = null;
         let ani = this.runstatusNode.getChildByName("Ani").getComponent(Animation);
-        console.log(ani.clips[0]);
-        let clip:string;
-        let ind:number;
-        if(ac == true){
-            ind = 0;
-            clip = ani.clips[0].name;
-        }
-        else{
-            ind = 1;
-            clip = ani.clips[1].name;
-        }
-        ani.play(clip);
+        let err:string;
+        let ind:number;//0 AC,1 CE,2 part WA,3 ALL WA,4 RE,5 TLE,6 MLE
+        console.log(ac);
+        err = this.errorInformation[ac][1];
+        ind = this.errorInformation[ac][0];
+        console.log(ani.clips[ind],ind,ac);
+        let pre_sta:number = Globaldata.gamestateNumber;
+        Globaldata.gamestateNumber = 1;
+        ani.play(`runstatus${ind+1}`);
         await this.sleep(ani.clips[ind].duration/ani.clips[ind].speed);//speed测试完记得改回去#
-        if(ac == true){
+        if(ac == 0){
             Globaldata.gameperiodNumber++;
             director.emit('resume');
         }
         else{
-            this.errorinfNode.active = true;
             console.log(this.errorInformation);
-            this.errorinfNode.getComponent(Label).string = this.errorInformation[Globaldata.gameperiodNumber][0];//错误类型待组合
+            if(err != null)this.errorinfNode.getComponent(Label).string = err;
             this.runstatusNode.on(Node.EventType.MOUSE_DOWN,this.back_to_codelines,this);
         }
+        Globaldata.gamestateNumber = pre_sta;
         //console.log("AC");
     }
 
     back_to_codelines () {
         this.runstatusNode.off(Node.EventType.MOUSE_DOWN,this.back_to_codelines,this);
+        this.errorinfNode.getComponent(Label).string = null;
         this.runstatusNode.active = false;
         this.codelinesNode.active = true;
         this.AINode.active = true;

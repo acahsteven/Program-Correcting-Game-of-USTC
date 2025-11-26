@@ -1,6 +1,6 @@
 
-import { _decorator, Component, Node, Input, input, director, game, } from 'cc';
-import { Globaldata } from './data';
+import { _decorator, Component, Node, Input, input, director, game, resources, JsonAsset, error, } from 'cc';
+import { Globaldata,constData} from './data';
 import { AudioManager } from './AudioManager';
 //import * as fs from 'fs';
 const { ccclass, property } = _decorator;
@@ -71,10 +71,26 @@ export class game_start extends Component {
         this.endNode.active = true;
     }
 
-    begin (event,lvl) {
+    async begin (event,lvl) {
         // console.log(lvl);
         // console.log('onload');
         Globaldata.curlevelsNumber = lvl;
+        resources.load(`data/level${lvl}`, (err: any, res: JsonAsset) => {
+                    if (err) {
+                        error(err.message || err);
+                        return;
+                    }
+                    Globaldata.jsonData = res.json as constData;
+        })
+        while(Globaldata.jsonData == null){await this.sleep(0.1);}
+        console.log(Globaldata.jsonData != null);
+        await this.sleep(0.1)
         director.loadScene('game_main');
+    }
+
+    sleep(duration: number): Promise<void> {
+        return new Promise<void>((resolve) => {
+            this.scheduleOnce(resolve, duration);
+        });
     }
 }

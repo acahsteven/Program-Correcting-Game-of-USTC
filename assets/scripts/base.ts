@@ -1,7 +1,6 @@
 
-import { _decorator, Animation, Component, director, Label, Node } from 'cc';
-import { game_start } from './game_start';
-import { Globaldata } from './data';
+import { _decorator, Animation, Component, director, error, instantiate, JsonAsset, Label, Node, Prefab, resources } from 'cc';
+import { Globaldata,constData } from './data';
 const { ccclass, property } = _decorator;
 
 /**
@@ -19,27 +18,45 @@ const { ccclass, property } = _decorator;
 @ccclass('base')
 export class base extends Component {
     tmpstate:number = null;
-    
+    jsonData:constData = null;
+    curLevel:number = null;
+    description:string = null;
+    input:string = null;
+    output:string = null;
+    title:string = null;
 
+    @property ({type:Node})
+    private broswercanvasNode = null;
     @property ({type:Node})
     private windowsNode = null;
     @property ({type:Node})
+    private browserNode = null;
+    @property ({type:Node})
     private exitNode = null;
-
     @property ({type:Node})
     private smallicon1Node = null;
-
     @property ({type:Node})
     private smallicon2Node = null;
-
     @property ({type:Node})
     private codeareaNode = null;
-
     @property ({type:Node})
     private logareaNode = null;
-
     @property ({type:Node})
     private startAnimationNode = null;
+    @property ({type:Prefab})
+    private browserbarfab:Prefab = null;
+
+    onLoad () {
+        this.curLevel = Globaldata.curlevelsNumber;
+        // resources.load(`data/level${this.curLevel}`, (err: any, res: JsonAsset) => {
+        //     if (err) {
+        //         error(err.message || err);
+        //         return;
+        //     }
+        //     Globaldata.jsonData = res.json as constData;
+        // })
+        this.jsonData = Globaldata.jsonData;
+    }
 
     start () {
         this.exitNode.active = false;
@@ -47,6 +64,13 @@ export class base extends Component {
         this.startAnimationNode.active = false;
         this.smallicon1Node.active = false;
         this.smallicon2Node.active = false;
+
+        this.description = this.jsonData.descriptionString;
+        this.input = this.jsonData.inputString;
+        this.output = this.jsonData.outputString;
+        this.title = this.jsonData.titleString;
+
+        this.problembarinitialize();
         this.animation();
         console.log('start end');
         director.on('dialogues_finished_base',this.show,this);
@@ -55,6 +79,18 @@ export class base extends Component {
     // update (deltaTime: number) {
     //     // [4]
     // }
+    problembarinitialize () {
+        let barNode:Node = instantiate(this.browserbarfab);
+        this.broswercanvasNode.addChild(barNode);
+        barNode.getChildByName("urlcolumn").getChildByName("url").getComponent(Label).string+=this.curLevel.toString();
+        barNode.getChildByName("title").getComponent(Label).string=this.title;
+        barNode.getChildByName("content").getChildByName("description").getComponent(Label).string=this.description;
+        barNode.getChildByName("I_O").getChildByName("input").getComponent(Label).string=this.input;
+        barNode.getChildByName("I_O").getChildByName("output").getComponent(Label).string=this.output;
+        barNode.active = false;
+        //this.browserNode.children[0].active = false;
+    }
+
     sleep(duration: number): Promise<void> {
         return new Promise<void>((resolve) => {
             this.scheduleOnce(resolve, duration);
@@ -90,6 +126,7 @@ export class base extends Component {
 
     show () {
         this.codeareaNode.active = true;
+        Globaldata.gamestateNumber = 3;
         director.off('dialogues_finished',this.show,this);
     }
 

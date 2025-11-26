@@ -1,5 +1,5 @@
 
-import { _decorator, AudioClip, Component, instantiate, Label, Node, Prefab, Vec3, EventMouse, director, resources, JsonAsset, error } from 'cc';
+import { _decorator, AudioClip, Component, instantiate, Label, Node, Prefab, Vec3, EventMouse, director, resources, JsonAsset, error, UITransform, Size } from 'cc';
 import { constData, Globaldata } from './data';
 const { ccclass, property } = _decorator;
 
@@ -26,6 +26,7 @@ export class logarea extends Component {
     dialogsArray:string[] = null;
     loglenNumber:number = null;
     totallog:number = 0;
+    logdownpointer:number = 0;
 
     @property ({type:Node})
     private logareaNode:Node = null;
@@ -44,18 +45,19 @@ export class logarea extends Component {
 
     onLoad () {
         this.curLevel = Globaldata.curlevelsNumber;
-        resources.load(`data/level${this.curLevel}`, (err: any, res: JsonAsset) => {
-            if (err) {
-                error(err.message || err);
-                console.log('error');
-                return;
-            }
-            this.jsonData = res.json as constData;
-            console.log('onLoad');
-            this.dialogues = this.jsonData.dialoguesArray;
-            this.names = this.jsonData.namesArray;
-            this.totalperiod = this.jsonData.totalperiodNumber;
-        })
+        // resources.load(`data/level${this.curLevel}`, (err: any, res: JsonAsset) => {
+        //     if (err) {
+        //         error(err.message || err);
+        //         console.log('error');
+        //         return;
+        //     }
+        //     this.jsonData = res.json as constData;
+        // })
+        console.log('onLoad');
+        this.jsonData = Globaldata.jsonData;
+        this.dialogues = this.jsonData.dialoguesArray;
+        this.names = this.jsonData.namesArray;
+        this.totalperiod = this.jsonData.totalperiodNumber;
     }
 
     start () {
@@ -87,6 +89,7 @@ export class logarea extends Component {
         if(Globaldata.gameperiodNumber == 0){
             director.off('animation_finish',this.dialogLoad,this);
             director.emit('dialogues_finished_base');
+            console.log("firstlog finished")
         }
         else if(Globaldata.gameperiodNumber == this.totalperiod-1){
             director.emit('end_codearea');//待改
@@ -104,45 +107,63 @@ export class logarea extends Component {
         });
     }
 
-    dialogLoadOnce (i:number){
+    dialogLoadOnce (i:number){//
         //console.log(`load${i}`);
         let dialogNode = null;
         let nameindex = <number><any>this.dialogsArray[i].slice(0,1);
+        let x:number,y:number;
         //console.log(nameindex);
         if(nameindex == 0){
             dialogNode = instantiate(this.dialogTAPrefab);
-            dialogNode.setPosition(145,200-100*this.totallog,0);
+            x = 145;
         }
         else{
             dialogNode = instantiate(this.dialogSTPrefab);
-            dialogNode.setPosition(-145,200-100*this.totallog,0);
+            x = -145
         }
         this.dialogsNode.addChild(dialogNode);
-        //console.log(`log${i}:${dialogNode.position}`)
         dialogNode.getChildByName("name").getComponent(Label).string = this.names[nameindex];
         dialogNode.getChildByName("textarea").getChildByName("text").getComponent(Label).string = this.dialogsArray[i].slice(2);
-        if(this.totallog>=5){
+        dialogNode.getChildByName("textarea").getChildByName("text").getComponent(Label).updateRenderData(true);
+        let logheight:number = <number><any>dialogNode.getChildByName("textarea").getChildByName("text").getComponent(UITransform).height;
+        y = this.logdownpointer-20;
+        dialogNode.setPosition(x,y,0);
+        if(logheight>60){
+            let sizea:Size = new Size(290,logheight+50);
+            let sizeb:Size = new Size(200,logheight+10);
+            dialogNode.getChildByName("textarea").getComponent(UITransform).setContentSize(sizeb);
+            dialogNode.getComponent(UITransform).setContentSize(sizea);
+            this.logdownpointer-=70+logheight;
+        }
+        else{
+            this.logdownpointer-=140;
+        }
+        if(this.logdownpointer+this.dialogsNode.getComponent(UITransform).height<0){
             let new_x = this.dialogsNode.position.x;
-            let new_y = this.dialogsNode.position.y+100;
+            let new_y = 360-this.logdownpointer-this.dialogsNode.getComponent(UITransform).height;
+            
             this.dialogsNode.position = new Vec3(new_x,new_y,0);
+            console.log(new_y,this.dialogsNode.position);
         }
         this.totallog+=1;
     }
 
     roll (event: EventMouse) {
         if(Globaldata.gamestateNumber == 0||Globaldata.gamestateNumber == 2)return;
+        //console.log(this.dialogsNode.position);
         let abs: number = event.getScrollY();
         let flag: number;
-        if (abs < 0) {
+        if (abs > 0) {
             flag = 1;
-            if(this.dialogsNode.position.y >= 110+100*(this.totallog-5)) return;//幻数待绑定
         }
         else {
             flag = -1;
-            if(this.dialogsNode.position.y <= 110) return;//幻数待绑定
+            if(this.dialogsNode.position.y <= 360) return;//幻数待绑定
         }
         let new_pos = this.dialogsNode.position;
-        let new_y = new_pos.y+flag*100;
+        let new_y = new_pos.y+flag*20;
+        if(new_y+this.logdownpointer >= 360-this.dialogsNode.getComponent(UITransform).height)new_y = 360-this.logdownpointer-this.dialogsNode.getComponent(UITransform).height;
+        if(new_y <= 360)new_y = 360;
         new_pos = new Vec3(new_pos.x,new_y,new_pos.z); 
         this.dialogsNode.setPosition(new_pos);
     }
