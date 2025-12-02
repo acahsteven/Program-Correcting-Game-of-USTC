@@ -108,6 +108,6 @@
 
     "titleString":"1.Hello World!",
     "descriptionString":"编写你的第一个c语言程序，使其在终端输出\"hello world!\"。",
-    "inputString":"样例输入：\n无",
+    "inputString":"样例输入：\n  无",
     "outputString":"样例输出：\n  1    hello world!"
 }

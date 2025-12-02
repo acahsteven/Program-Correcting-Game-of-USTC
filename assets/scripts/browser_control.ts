@@ -1,5 +1,6 @@
 
 import { _decorator, Canvas, Component, Node } from 'cc';
+import { Globaldata } from './data';
 const { ccclass, property } = _decorator;
 
 
@@ -17,6 +18,7 @@ export class browser_control extends Component {
 
 
     large () {
+        if(Globaldata.gamestateNumber == 0)return;
         this.node.getChildByName("problembar").active = true;
     }
 

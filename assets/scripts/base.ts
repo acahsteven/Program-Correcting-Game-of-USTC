@@ -1,7 +1,8 @@
 
-import { _decorator, Animation, Component, director, error, instantiate, JsonAsset, Label, Node, Prefab, resources } from 'cc';
+import { _decorator, Animation, Component, director, error, instantiate, JsonAsset, Label, Node, Prefab, resources, sys } from 'cc';
 import { Globaldata,constData } from './data';
 const { ccclass, property } = _decorator;
+
 
 /**
  * Predefined variables
@@ -24,6 +25,7 @@ export class base extends Component {
     input:string = null;
     output:string = null;
     title:string = null;
+    configPath:string = null;
 
     @property ({type:Node})
     private broswercanvasNode = null;
@@ -47,6 +49,15 @@ export class base extends Component {
     private browserbarfab:Prefab = null;
 
     onLoad () {
+        if(sys.isNative == true){
+            try{
+                //jsb.fileUtils.createDirectory("C://");
+            }
+            catch{
+                console.log("creating users_configuration fails");
+            }
+        }//文件管理，待完成#
+        //console.log(sys);
         this.curLevel = Globaldata.curlevelsNumber;
         // resources.load(`data/level${this.curLevel}`, (err: any, res: JsonAsset) => {
         //     if (err) {

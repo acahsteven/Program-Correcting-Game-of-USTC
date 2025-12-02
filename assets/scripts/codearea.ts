@@ -238,8 +238,8 @@ export class codearea extends Component {
             console.log(this.errorInformation);
             if(err != null)this.errorinfNode.getComponent(Label).string = err;
             this.runstatusNode.on(Node.EventType.MOUSE_DOWN,this.back_to_codelines,this);
+            Globaldata.gamestateNumber = pre_sta;
         }
-        Globaldata.gamestateNumber = pre_sta;
         //console.log("AC");
     }
 

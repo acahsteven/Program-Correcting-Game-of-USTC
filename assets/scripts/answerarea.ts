@@ -51,7 +51,8 @@ export class answerarea extends Component {
     }
 
     next () {
-        console.log(this);
+        //console.log(this);
+        Globaldata.gamestateNumber = 1;
         this.period = Globaldata.gameperiodNumber-1;
         this.panelNode.active = true;
         this.restore(1);

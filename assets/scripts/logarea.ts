@@ -85,7 +85,7 @@ export class logarea extends Component {
             await this.sleep(0.1);//按需调整
             this.dialogLoadOnce(i);
         }
-        Globaldata.gamestateNumber = 1;
+        Globaldata.gamestateNumber = 3;
         if(Globaldata.gameperiodNumber == 0){
             director.off('animation_finish',this.dialogLoad,this);
             director.emit('dialogues_finished_base');
