@@ -128,11 +128,13 @@ export class logarea extends Component {
         let logheight:number = <number><any>dialogNode.getChildByName("textarea").getChildByName("text").getComponent(UITransform).height;
         y = this.logdownpointer-20;
         dialogNode.setPosition(x,y,0);
-        if(logheight>60){
+        if(logheight>40){
             let sizea:Size = new Size(290,logheight+50);
             let sizeb:Size = new Size(200,logheight+10);
             dialogNode.getChildByName("textarea").getComponent(UITransform).setContentSize(sizeb);
             dialogNode.getComponent(UITransform).setContentSize(sizea);
+            let x=dialogNode.getChildByName("downpart").position.x;
+            dialogNode.getChildByName("downpart").position = new Vec3(x,-90-(logheight-30),0);
             this.logdownpointer-=70+logheight;
         }
         else{

@@ -1,5 +1,5 @@
 
-import { _decorator, Component, Node, EventTarget, Label, Toggle, Sprite, Color, director, resources, error, JsonAsset } from 'cc';
+import { _decorator, Component, Node, EventTarget, Label, Toggle, Sprite, Color, director, resources, error, JsonAsset, SpriteFrame } from 'cc';
 import { constData, Globaldata } from './data';
 
 const { ccclass, property } = _decorator;
@@ -28,6 +28,10 @@ export class answerarea extends Component {
     panelNode:Node = null;
     @property ({type:Node})
     enterNode:Node = null;
+    @property ({type:SpriteFrame})
+    tick:SpriteFrame = null;
+    @property ({type:SpriteFrame})
+    cross:SpriteFrame = null;
 
     onLoad () {
         this.enterNode.active = false;
@@ -72,7 +76,7 @@ export class answerarea extends Component {
         for(let i=0;i<3;i++){
             let c:string = String.fromCharCode(65+i);
             //console.log(this.checkArray,index);
-            this.panelNode.getChildByName("Toggle "+c).getChildByName('result').getComponent(Sprite).color = new Color(255,255,255,255);
+            this.panelNode.getChildByName("Toggle "+c).getChildByName('result').getComponent(Sprite).spriteFrame = null;
         }
         if(this.checkArray[0]+this.checkArray[1]+this.checkArray[2] == 1)this.enterNode.active = true;
         else this.enterNode.active = false;
@@ -83,12 +87,12 @@ export class answerarea extends Component {
             if(this.checkArray[i] == 1){
                 let c = String.fromCharCode(65+i);
                 if(this.choiceArray[3][this.period][i] == true){
-                    this.panelNode.getChildByName("Toggle "+c).getChildByName('result').getComponent(Sprite).color = new Color(0,255,0,255);
+                    this.panelNode.getChildByName("Toggle "+c).getChildByName('result').getComponent(Sprite).spriteFrame = this.tick;
                     this.enterNode.active = false;
                     director.emit("resumelog");
                 }
                 else{
-                    this.panelNode.getChildByName("Toggle "+c).getChildByName('result').getComponent(Sprite).color = new Color(255,0,0,255);
+                    this.panelNode.getChildByName("Toggle "+c).getChildByName('result').getComponent(Sprite).spriteFrame = this.cross;
                     this.restore(0);
                     return;
                 }

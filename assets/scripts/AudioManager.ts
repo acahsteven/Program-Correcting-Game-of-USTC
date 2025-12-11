@@ -1,12 +1,13 @@
 
-import { _decorator, AudioClip, AudioSource, Component, Node } from 'cc';
+import { _decorator, AudioClip, AudioSource, Component, Node, resources, Sprite, SpriteFrame } from 'cc';
 const { ccclass, property } = _decorator;
  
 @ccclass('AudioManager')
 export class AudioManager extends Component {
-    // [1]
-    // dummy = '';
+    bgmstatus = 1;
 
+    @property ({type:Node})
+    private bgmbutton = null;
     @property ({type:AudioClip})
     private clickClip:AudioClip = null;
 
@@ -14,6 +15,9 @@ export class AudioManager extends Component {
 
     start () {
         this.clipSource = this.getComponent(AudioSource);
+        resources.load("bgmpausebutton/spriteFrame", SpriteFrame, (err, spriteframe) => {
+            this.bgmbutton.getComponent(Sprite).spriteFrame = spriteframe;
+        });
     }
 
     // update (deltaTime: number) {
@@ -22,6 +26,20 @@ export class AudioManager extends Component {
 
     clicksound () {
         this.clipSource.playOneShot(this.clickClip);
+    }
+
+    changebgm () {
+        if(this.bgmstatus == 1){
+            resources.load("bgmonbutton/spriteFrame", SpriteFrame, (err, spriteframe) => {
+                this.bgmbutton.getComponent(Sprite).spriteFrame = spriteframe;
+            });
+        }
+        else{
+            resources.load("bgmpausebutton/spriteFrame", SpriteFrame, (err, spriteframe) => {
+                this.bgmbutton.getComponent(Sprite).spriteFrame = spriteframe;
+            });
+        }
+        this.bgmstatus ^= 1;
     }
 }
 

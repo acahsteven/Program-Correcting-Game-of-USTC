@@ -1,5 +1,5 @@
 
-import { _decorator, Animation, Component, director, error, instantiate, JsonAsset, Label, Node, Prefab, resources, sys } from 'cc';
+import { _decorator, Animation, Color, Component, director, error, instantiate, JsonAsset, Label, Node, Prefab, resources, sys } from 'cc';
 import { Globaldata,constData } from './data';
 const { ccclass, property } = _decorator;
 
@@ -26,6 +26,8 @@ export class base extends Component {
     output:string = null;
     title:string = null;
     configPath:string = null;
+    time:number = 0;
+    private timer = null;
 
     @property ({type:Node})
     private broswercanvasNode = null;
@@ -47,6 +49,8 @@ export class base extends Component {
     private startAnimationNode = null;
     @property ({type:Prefab})
     private browserbarfab:Prefab = null;
+    @property ({type:Label})
+    private showtimeLabel:Label = null;
 
     onLoad () {
         if(sys.isNative == true){
@@ -80,6 +84,12 @@ export class base extends Component {
         this.input = this.jsonData.inputString;
         this.output = this.jsonData.outputString;
         this.title = this.jsonData.titleString;
+        this.timer = setInterval(() =>{
+            if(Globaldata.gamestateNumber>0){
+                this.time+=10;//记得改#
+                this.timeupdate();
+            }
+            } ,1000);
 
         this.problembarinitialize();
         this.animation();
@@ -87,9 +97,20 @@ export class base extends Component {
         director.on('dialogues_finished_base',this.show,this);
     }
 
-    // update (deltaTime: number) {
-    //     // [4]
-    // }
+    timeupdate () {
+        let minutes = this.time%60;
+        let hours = (this.time-minutes)/60;
+        hours = (hours+19)%24;
+        console.log(hours,minutes);
+        let time = hours.toString()+':'+(minutes>9?'':'0')+minutes.toString();
+        this.showtimeLabel.string = time;
+        if(this.time>=420){
+            clearInterval(this.timer);
+            this.timer = null;
+            this.showtimeLabel.color = new Color(255,0,0,255);
+        }
+    }
+
     problembarinitialize () {
         let barNode:Node = instantiate(this.browserbarfab);
         this.broswercanvasNode.addChild(barNode);
