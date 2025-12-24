@@ -26,7 +26,7 @@ export class logarea extends Component {
     dialogsArray:string[] = null;
     loglenNumber:number = null;
     totallog:number = 0;
-    logdownpointer:number = 0;
+    logdownpointer:number = -20;
 
     @property ({type:Node})
     private logareaNode:Node = null;
@@ -81,10 +81,7 @@ export class logarea extends Component {
         Globaldata.gamestateNumber = 0;
         this.dialogsArray = this.dialogues[Globaldata.gameperiodNumber][1];
         this.loglenNumber = this.dialogues[Globaldata.gameperiodNumber][0];
-        for(let i=0;i<this.loglenNumber;i++){
-            await this.sleep(0.1);//按需调整
-            this.dialogLoadOnce(i);
-        }
+        await this.animation(this.loglenNumber);
         Globaldata.gamestateNumber = 3;
         if(Globaldata.gameperiodNumber == 0){
             director.off('animation_finish',this.dialogLoad,this);
@@ -99,6 +96,21 @@ export class logarea extends Component {
             director.emit('next_codearea');
             director.emit('hide_answerarea');
         }
+    }
+
+    async animation(n:number){
+        let flag:boolean = false;
+        this.node.parent.getChildByName("rollarea").on(Node.EventType.MOUSE_DOWN,() => {flag = true},this);
+        for(let i=0;i<n;i++){
+            this.dialogLoadOnce(i);
+            for(let j=0;j<10;j++){
+                if(flag == false)await this.sleep(0.1);//按需调整
+                else{
+                    this.node.parent.getChildByName("rollarea").off(Node.EventType.MOUSE_DOWN,() => {flag = true},this);
+                }
+            }
+        }
+        if(flag)console.log("log:\tjump succeed");
     }
 
     sleep(duration: number): Promise<void> {
@@ -135,7 +147,7 @@ export class logarea extends Component {
             dialogNode.getComponent(UITransform).setContentSize(sizea);
             let x=dialogNode.getChildByName("downpart").position.x;
             dialogNode.getChildByName("downpart").position = new Vec3(x,-90-(logheight-30),0);
-            this.logdownpointer-=70+logheight;
+            this.logdownpointer-=110+logheight;
         }
         else{
             this.logdownpointer-=140;

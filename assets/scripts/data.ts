@@ -109,7 +109,7 @@ export interface constData{
     choiceArray:[number, string[], string[][], boolean[][]];
     filenameString:string[];
     answerArray: number[][];
-    errorinformationString: [number,string][][];
+    errorinformationString: [number,string][][];//0 AC,1 CE,2 part WA,3 ALL WA,4 RE,5 TLE,6 MLE
 
     dialoguesArray: [number,string[]][];
     namesArray: string[];

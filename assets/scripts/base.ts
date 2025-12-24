@@ -26,7 +26,7 @@ export class base extends Component {
     output:string = null;
     title:string = null;
     configPath:string = null;
-    time:number = 0;
+    time:number = null;
     private timer = null;
 
     @property ({type:Node})
@@ -74,6 +74,8 @@ export class base extends Component {
     }
 
     start () {
+        this.time = 0;
+
         this.exitNode.active = false;
         this.codeareaNode.active = false;
         this.startAnimationNode.active = false;
@@ -89,7 +91,7 @@ export class base extends Component {
                 this.time+=10;//记得改#
                 this.timeupdate();
             }
-            } ,1000);
+        } ,1000);
 
         this.problembarinitialize();
         this.animation();
@@ -101,7 +103,7 @@ export class base extends Component {
         let minutes = this.time%60;
         let hours = (this.time-minutes)/60;
         hours = (hours+19)%24;
-        console.log(hours,minutes);
+        //console.log(hours,minutes);
         let time = hours.toString()+':'+(minutes>9?'':'0')+minutes.toString();
         this.showtimeLabel.string = time;
         if(this.time>=420){
@@ -128,6 +130,7 @@ export class base extends Component {
             this.scheduleOnce(resolve, duration);
         });
     }
+
     async animation () {
         console.log('animation start');
 
@@ -135,9 +138,18 @@ export class base extends Component {
         this.startAnimationNode.active = true;
         let text = this.startAnimationNode.getComponent(Label);
         text.string = `Week ${Globaldata.curlevelsNumber}`;
-        let ani = this.startAnimationNode.getComponent(Animation);
+        let ani:Animation = this.startAnimationNode.getComponent(Animation);
         ani.play('showweek');
-        await this.sleep(2.5);
+        let flag = false;
+        this.node.on(Node.EventType.MOUSE_DOWN,()=>{flag=true;},this);
+        for(let i=0;i<25;i++){
+            if(flag == false)await this.sleep(0.1);
+            else{
+                ani.stop();
+                this.node.off(Node.EventType.MOUSE_DOWN,()=>{flag=true;},this);
+                break;
+            }
+        }
         this.logareaNode.active = true;
         this.startAnimationNode.active = false;
         director.emit('animation_finish');

@@ -104,7 +104,7 @@ export class answerarea extends Component {
     hide () {
         for(let i=0;i<3;i++){
             let c:string = String.fromCharCode(65+i);
-            this.panelNode.getChildByName("Toggle "+c).getChildByName('result').getComponent(Sprite).color = new Color(255,255,255,255);
+            this.panelNode.getChildByName("Toggle "+c).getChildByName('result').getComponent(Sprite).spriteFrame = null;
         }
         this.panelNode.active = false;
         director.off('hide_answerarea',this.hide,this);

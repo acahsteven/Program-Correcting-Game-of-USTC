@@ -166,7 +166,7 @@ export class codearea extends Component {
     }
 
     back () {
-        if(Globaldata.gamestateNumber <= 2)return;
+        if(Globaldata.gamestateNumber == 0)return;
         this.areaNode.active = false;
         this.smalliconNode.active = true;
     }
@@ -201,6 +201,7 @@ export class codearea extends Component {
     }
 
     next () {
+        this.AI_assist = 0;
         for(let child of this.codelinesNode.children){
             child.destroy();
         }
@@ -228,8 +229,17 @@ export class codearea extends Component {
         console.log(ani.clips[ind],ind,ac);
         let pre_sta:number = Globaldata.gamestateNumber;
         Globaldata.gamestateNumber = 1;
+        let flag = false;
+        this.node.on(Node.EventType.MOUSE_DOWN,()=>{flag = true},this);
         ani.play(`runstatus${ind+1}`);
-        await this.sleep(ani.clips[ind].duration/ani.clips[ind].speed);//speed测试完记得改回去#
+        for(let j = 0;j<ani.clips[ind].duration/ani.clips[ind].speed*10;j++){//speed测试完记得改回去#
+            if(flag == false)await this.sleep(0.1);
+            else{
+                ani.play(`runstatus${ind+1}end`);
+                this.node.off(Node.EventType.MOUSE_DOWN,()=>{flag = true},this);
+                break;
+            }
+        }
         if(ac == 0){
             Globaldata.gameperiodNumber++;
             director.emit('resume');

@@ -8,6 +8,8 @@ const { ccclass, property } = _decorator;
 export class AIicon_drag extends Component {
     private flag = 0;//判断是否已移动
     private iconTween: Tween<Node> = null;
+    private delta_x = null;
+    private delta_y = null;
 
     @property ({type:Node})
     private AIiconNode:Node = null;
@@ -25,6 +27,9 @@ export class AIicon_drag extends Component {
         console.log("AItouch "+`${Globaldata.gamestateNumber}`);
         if(Globaldata.gamestateNumber <= 2)return;
         if(this.flag != 0) return;
+        this.delta_x = this.AIiconNode.position.x-event.getUILocationX()+640+290;
+        this.delta_y = this.AIiconNode.position.y-event.getUILocationY()+360;
+        console.log(this.delta_x);
         this.flag = 1;
         this.node.on(Node.EventType.MOUSE_MOVE,this.drag,this);
         this.node.on(Node.EventType.MOUSE_LEAVE,this.out,this);
@@ -32,9 +37,9 @@ export class AIicon_drag extends Component {
 
     drag (event: EventMouse) {
         this.flag = 2;
-        let cur_x: number = event.getUILocationX()-640-290;
+        let cur_x: number = event.getUILocationX()-640-290+this.delta_x;
         let new_x: number = (cur_x>320)?320:((cur_x<-320)?-320:cur_x)
-        let cur_y: number = event.getUILocationY()-360;
+        let cur_y: number = event.getUILocationY()-360+this.delta_y;
         let new_y: number = (cur_y>290)?290:((cur_y<-330)?-330:cur_y)
         this.iconTween = tween(this.AIiconNode)
             .to(0.01,{ position: new Vec3(new_x,new_y,0)})

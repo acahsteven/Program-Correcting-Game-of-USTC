@@ -56,6 +56,7 @@ export class game_start extends Component {
     //     // [4]
     // }
     end (){
+        console.log("end");
         game.end();
     }
 

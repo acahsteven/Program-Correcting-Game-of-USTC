@@ -1,0 +1,109 @@
+{
+    "fileNumber": 1,
+    "linesNumber": [10],
+    "orgtextString": [
+        [
+			"#include<stdio.h>",
+			"#include<math.h>",
+			"#define PI 3.1415926",
+			"int main(){",
+			"    int edge;",
+			"    scanf(\"%d\",edge);",
+			"    double s=sin(2*PI/edge)*0.5*edge;",
+			"    printf(\"%.9lld\",s);",
+			"    return 0;",
+			"}"
+        ]
+    ],
+    "altertextString": [
+        [
+			"#include<stdio.h>",
+			"#include<string.h>",
+			"#define PI 3.1415926535",
+			"int main(){",
+			"    int edge;",
+			"    scanf(\"%d\",&edge);",
+			"    double s=sin(2*PI/edge)*0.5*edge;",
+			"    printf(\"%.9llf\",s);",
+			"    return 0;",
+			"}"
+        ]
+    ],
+    "changeableArray": [
+        [false, true, true, false, false, true, false, true, false, false]
+    ],
+    "answerArray": [
+        [0, 0, -1, 0, 0, 1, 0, 1, 0, 0]
+    ],
+    "filenameString": ["st3_calculate.c"],
+    "errorinformationString": [
+        [
+            [0,null],
+            [3,null],
+            [3,null],
+            [3,null],
+            [1,"incompatible implicit declaration of built-in function 'sin'"],
+            [1,"incompatible implicit declaration of built-in function 'sin'"],
+            [1,"incompatible implicit declaration of built-in function 'sin'"],
+            [1,"incompatible implicit declaration of built-in function 'sin'"]
+        ]
+    ],
+
+    "totalperiodNumber": 3,
+    "namesArray": ["whh","st1","st2","st3","st4"],
+    "dialoguesArray": [
+        [
+            11,
+            [
+                "0 同学们，今天的上机作业已经发布在课程主页上了。",
+                "0 要求同上一次。",
+                "0 请大家及时完成。",
+                "1 收到",
+                "2 收到",
+                "3 收到",
+                "4 收到",
+                "0 有任何问题都可以@我进行人工检查",
+                "3 助教，我的只能输出整数。。。",
+                "3 麻烦您看一下",
+                "0 OK"
+            ]
+        ],
+        [
+            11,
+            [
+                "0 @st3,printf中数据的类型后缀用错了",
+                "0 double要用%llf",
+                "0 %lld是long long int",
+                "3 啊这，我的我的",
+                "0 还有scanf读取时要加&",
+                "0 不然数据存不进去",
+                "0 具体为什么后面会讲的",
+                "0 现在就先当语法来记好了",
+                "3 收到，谢谢助教",
+                "4 助教助教，看看我的",
+                "4 始终没有输出"
+            ]
+        ],
+        [
+            4,
+            [
+                "0 @st2，你写的是C++语法...",
+                "0 有C++基础的同学不要把C和C++弄混了",
+                "0 考试写C++是没分的",
+                "2 收到，谢谢助教提醒"
+            ]
+        ]
+    ],
+    "choiceArray":[
+        2,
+        ["C语言中double对应的类型后缀是？", "包含C语言标准输出函数的头文件是？"],
+        [
+            ["%llu", "%lld", "%llf"],
+            ["stdio.h", "iostream", "bits/stdc++.h"]
+        ],
+        [
+            [false, false, true],
+            [true, false, false]
+        ]
+    ]
+}

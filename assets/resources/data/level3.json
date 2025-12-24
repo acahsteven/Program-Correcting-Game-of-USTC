@@ -1,0 +1,175 @@
+{
+    "fileNumber": 1,
+    "linesNumber": [67, 6],
+    "orgtextString": [
+        [
+			"#include<stdio.h>",
+			"#include<string.h>",
+			"char str[1001];",
+			"int isop(char c){",
+			"    switch(c){",
+			"    case '+':",
+			"        return 1;",
+			"    case '-':",
+			"        return 2;",
+			"    case '*':",
+			"        return 3;",
+			"    case '/':",
+			"        return 4;",
+			"    default:",
+			"        return 0;",
+			"    }",
+			"}",
+			"int toInt(char* l,char* r){",
+			"    int num=0;",
+			"    for(char* p=l;p<=r;p++){",
+			"        num=num*10+*p-'0';",
+			"    }",
+			"    return num;",
+			"}",
+			"int recursion(char*l,char*r){",
+			"    if(l>r)return 0;",
+			"    char* p=r;",
+			"    int hidden=0;",
+			"    while(p>=l){",
+			"        if(*p=='(')hidden+=1;",
+			"        if(*p==')')hidden-=1;",
+			"        if(!hidden&&isop(*p)>0&&isop(*p)<=2)break;",
+			"        p--;",
+			"    }",
+			"    if(p>=l){",
+			"        if(isop(*p)==1)return recursion(l,p-1)+recursion(p+1,r);",
+			"        else return recursion(l,p-1)-recursion(p+1,r);",
+			"    }",
+			"    else{",
+			"        p=r;",
+			"        int num_flag=1;",
+			"        while(p>=l){",
+			"            if(*p=='(')hidden+=1;",
+			"            if(*p==')')hidden-=1;",
+			"            if(isop(*p))num_flag=0;",
+			"            if(!hidden&&isop(*p)>2)break;",
+			"            p--;",
+			"        }",
+			"        if(p<l){",
+			"            if(*l=='(')l++,r--;",
+			"            if(num_flag)return toInt(l,r);",
+			"            else return recursion(l,r);",
+			"        }",
+			"        else{",
+			"            if(isop(*p)==3)return recursion(l,p-1)*recursion(p+1,r);",
+			"            else return recursion(l,p-1)/recursion(p+1,r);",
+			"        }",
+			"    }",
+			"}",
+			"int main(){",
+			"    int ans;",
+			"    fgets(str,1000,stdin);",
+			"    if(*(str+strlen(str)-1)=='\n')*(str+strlen(str)-1)='\\0';",
+			"    ans=recursion(str,str+strlen(str)-1);",
+			"    printf(\"%d\n\",ans);",
+			"    return 0;",
+			"}"
+        ],
+        [
+            "#include<iostream>",
+            "#define STR \"hello,world!\"",
+            "int main(){",
+            "    std::cout<<STR;",
+            "    return 0;",
+            "}"
+        ]
+    ],
+    "altertextString": [
+        [
+            "",
+            "",
+            "    printf(\"hello,world!\");",
+            "",
+            ""
+        ],
+        [
+            "#include<stdio.h>",
+            "",
+            "",
+            "    printf(STR);",
+            "",
+            ""
+        ]
+    ],
+    "changeableArray": [
+        [false, false, true, false, false],
+        [true, false, false, true, false, false]
+    ],
+    "answerArray": [
+        [0, 0, 1, 0, 0],
+        [1, 0, 0, 1, 0, 0]
+    ],
+    "filenameString": ["st3_hello_world.c", "st2_hello_world.c"],
+    "errorinformationString": [
+        [
+            [0,null],
+            [1,"implicit declaration of function 'print'"]
+        ],
+        [
+            [0,null],
+            [1,"expected expression before ':' token"],
+            [1,"iostream: No such file or directory"],
+            [1,"iostream: No such file or directory"]
+        ]
+    ],
+
+    "totalperiodNumber": 3,
+    "namesArray": ["whh","st1","st2","st3","st4"],
+    "dialoguesArray": [
+        [
+            8,
+            [
+                "0 同学们，今天是程序设计课程的第一课。",
+                "0 请大家按课程内容完成编译环境的配置，并完成第一个C语言的程序的编写。",
+                "0 完成后请将源代码交至助教处进行检查。",
+                "1 收到",
+                "2 收到",
+                "3 猪脚，我的代码怎么弄都编译错误，你能帮忙看看吗？已经发给你了",
+                "3 是助教，不好意思打错了",
+                "0 稍等，我看一下"
+            ]
+        ],
+        [
+            5,
+            [
+                "0 大家注意了，C语言的标准输出函数是printf",
+                "0 不是print或者别的什么",
+                "3 收到，已经改正了",
+                "2 助教，能看下我的吗",
+                "0 OK"
+            ]
+        ],
+        [
+            4,
+            [
+                "0 @st2，你写的是C++语法...",
+                "0 有C++基础的同学不要把C和C++弄混了",
+                "0 考试写C++是没分的",
+                "2 收到，谢谢助教提醒"
+            ]
+        ]
+    ],
+    "choiceArray":[
+        2,
+        ["C语言的标准输出函数是？", "包含C语言标准输出函数的头文件是？"],
+        [
+            ["print", "printf", "我不知道"],
+            ["stdio.h", "iostream", "bits/stdc++.h"]
+        ],
+        [
+            [false, true, false],
+            [true, false, false]
+        ]
+    ],
+
+    "titleString":"3.中缀表达式",
+    "descriptionString":"“计算机一定要能计算”，你是否曾好奇过C语言等编程语言是如何进行计算的？现在请根据已学知识和网络资料，完成一个进行中缀表达式计算的程序。\n方便起见，测评数据中只会包含四者运算和小括号，且保证按正确顺序计算时不会出现浮点数。\n输入长度不超过1000字符。",
+    "inputString":"样例输入：\n  1+(2*3)",
+    "outputString":"样例输出：\n  1    7"
+}

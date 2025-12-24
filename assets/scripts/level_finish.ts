@@ -1,6 +1,6 @@
 
-import { _decorator, Component, director, Node } from 'cc';
-import { Globaldata } from './data';
+import { _decorator, Component, director, error, JsonAsset, Node, resources } from 'cc';
+import { constData, Globaldata } from './data';
 const { ccclass, property } = _decorator;
 
 /**
@@ -32,17 +32,33 @@ export class level_finish extends Component {
     //     // [4]
     // }
 
-    onClick (event,data) {
+    async onClick (event,data) {
         Globaldata.gamestateNumber = 0;
         Globaldata.gameperiodNumber = 0;
         if(data == 1){
             Globaldata.curlevelsNumber++;
+            resources.load(`data/level${Globaldata.curlevelsNumber}`, (err: any, res: JsonAsset) => {
+                                if (err) {
+                                    error(err.message || err);
+                                    return;
+                                }
+                                Globaldata.jsonData = res.json as constData;
+                    })
+                    while(Globaldata.jsonData == null){await this.sleep(0.1);}
+                    console.log(Globaldata.jsonData != null);
+                    await this.sleep(0.1)
             director.loadScene('game_main');
         }
         else if(data == 2){
             Globaldata.curlevelsNumber = 0;
             director.loadScene('game_start');
         }
+    }
+
+    sleep(duration: number): Promise<void> {
+        return new Promise<void>((resolve) => {
+            this.scheduleOnce(resolve, duration);
+        });
     }
 }
 
