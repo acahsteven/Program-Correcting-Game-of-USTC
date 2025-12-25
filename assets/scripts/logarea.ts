@@ -26,7 +26,7 @@ export class logarea extends Component {
     dialogsArray:string[] = null;
     loglenNumber:number = null;
     totallog:number = 0;
-    logdownpointer:number = -20;
+    logdownpointer:number = -30;
 
     @property ({type:Node})
     private logareaNode:Node = null;
@@ -127,18 +127,18 @@ export class logarea extends Component {
         //console.log(nameindex);
         if(nameindex == 0){
             dialogNode = instantiate(this.dialogTAPrefab);
-            x = 145;
+            x = 88;
         }
         else{
             dialogNode = instantiate(this.dialogSTPrefab);
-            x = -145
+            x = -88;
         }
         this.dialogsNode.addChild(dialogNode);
         dialogNode.getChildByName("name").getComponent(Label).string = this.names[nameindex];
         dialogNode.getChildByName("textarea").getChildByName("text").getComponent(Label).string = this.dialogsArray[i].slice(2);
         dialogNode.getChildByName("textarea").getChildByName("text").getComponent(Label).updateRenderData(true);
         let logheight:number = <number><any>dialogNode.getChildByName("textarea").getChildByName("text").getComponent(UITransform).height;
-        y = this.logdownpointer-20;
+        y = this.logdownpointer-14;
         dialogNode.setPosition(x,y,0);
         if(logheight>40){
             let sizea:Size = new Size(290,logheight+50);
@@ -147,10 +147,10 @@ export class logarea extends Component {
             dialogNode.getComponent(UITransform).setContentSize(sizea);
             let x=dialogNode.getChildByName("downpart").position.x;
             dialogNode.getChildByName("downpart").position = new Vec3(x,-90-(logheight-30),0);
-            this.logdownpointer-=110+logheight;
+            this.logdownpointer-=77+logheight*0.7;
         }
         else{
-            this.logdownpointer-=140;
+            this.logdownpointer-=98;
         }
         if(this.logdownpointer+this.dialogsNode.getComponent(UITransform).height<0){
             let new_x = this.dialogsNode.position.x;

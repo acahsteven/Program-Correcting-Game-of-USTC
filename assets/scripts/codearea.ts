@@ -117,7 +117,7 @@ export class codearea extends Component {
         let flag: number;
         if (abs < 0) {
             flag = 1;
-            if(this.codelinesNode.position.y >= 40*(this.line-17)) return;
+            if(this.codelinesNode.position.y > 40*(this.line-17)) return;
         }
         else {
             flag = -1;

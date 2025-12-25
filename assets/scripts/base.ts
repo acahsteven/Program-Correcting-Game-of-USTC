@@ -186,6 +186,7 @@ export class base extends Component {
             Globaldata.curlevelsNumber = 0;
             Globaldata.gameperiodNumber = 0;
             Globaldata.gamestateNumber = 0;
+            Globaldata.jsonData = null;
             director.loadScene("game_start");
         }
         else{
