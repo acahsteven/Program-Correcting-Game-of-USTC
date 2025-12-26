@@ -170,12 +170,12 @@
     "_verticalAlign": 1,
     "_actualFontSize": 30,
     "_fontSize": 30,
-    "_fontFamily": "Arial",
+    "_fontFamily": "fpfont",
     "_lineHeight": 40,
     "_overflow": 0,
     "_enableWrapText": true,
     "_font": {
-      "__uuid__": "0abb3883-4a09-47c9-a5dd-1483557c083d",
+      "__uuid__": "a7274c7a-1cf9-4f81-a7d3-154ea0d361c4",
       "__expectedType__": "cc.TTFFont"
     },
     "_isSystemFontUsed": false,
@@ -319,7 +319,10 @@
       "b": 124,
       "a": 255
     },
-    "_normalSprite": null,
+    "_normalSprite": {
+      "__uuid__": "b64d9783-9b0d-4985-8f64-57262a0762b7@f9941",
+      "__expectedType__": "cc.SpriteFrame"
+    },
     "_hoverSprite": null,
     "_pressedSprite": null,
     "_disabledSprite": null,

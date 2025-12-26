@@ -43,6 +43,7 @@ export class game_start extends Component {
     private EscNode: Node = null;
 
     start () {
+        console.log(this.titleNode);
         //console.log(Globaldata.levels);
         this.contentsNode.active=false;
         this.selectionNode.active=false;
