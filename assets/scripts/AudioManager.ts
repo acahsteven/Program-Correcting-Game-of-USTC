@@ -1,5 +1,5 @@
 
-import { _decorator, AudioClip, AudioSource, Component, Node, resources, Sprite, SpriteFrame } from 'cc';
+import { _decorator, AudioClip, AudioSource, Component, director, Node, resources, Sprite, SpriteFrame } from 'cc';
 const { ccclass, property } = _decorator;
  
 @ccclass('AudioManager')
@@ -14,6 +14,12 @@ export class AudioManager extends Component {
     private clipSource:AudioSource = null;
 
     start () {
+        this.bgmbutton.active = false;
+        director.on("animend",this.show,this);
+    }
+
+    show () {
+        this.bgmbutton.active = true;
         this.clipSource = this.getComponent(AudioSource);
         resources.load("bgmpausebutton/spriteFrame", SpriteFrame, (err, spriteframe) => {
             this.bgmbutton.getComponent(Sprite).spriteFrame = spriteframe;

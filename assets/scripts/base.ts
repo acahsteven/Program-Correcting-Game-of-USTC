@@ -51,6 +51,8 @@ export class base extends Component {
     private browserbarfab:Prefab = null;
     @property ({type:Label})
     private showtimeLabel:Label = null;
+    @property ({type:Label})
+    private showdayLabel:Label = null;
 
     onLoad () {
         if(sys.isNative == true){
@@ -74,6 +76,10 @@ export class base extends Component {
     }
 
     start () {
+        console.log(new Date().toString());
+        let date = new Date();
+        this.showdayLabel.string=date.getFullYear().toString()+'/'+date.getMonth().toString()+'/'+date.getDate().toString();
+        console.log(this.showdayLabel.string);
         this.time = 0;
 
         this.exitNode.active = false;
@@ -88,10 +94,10 @@ export class base extends Component {
         this.title = this.jsonData.titleString;
         this.timer = setInterval(() =>{
             if(Globaldata.gamestateNumber>0){
-                this.time+=10;//记得改#
+                this.time+=1;//记得改#
                 this.timeupdate();
             }
-        } ,1000);
+        } ,5000);
 
         this.problembarinitialize();
         this.animation();
@@ -99,15 +105,20 @@ export class base extends Component {
         director.on('dialogues_finished_base',this.show,this);
     }
 
+    onDestroy () {
+        clearInterval(this.timer);
+        this.timer = null;
+    }
+
     timeupdate () {
+        if(this.time == null)return;
         let minutes = this.time%60;
         let hours = (this.time-minutes)/60;
         hours = (hours+19)%24;
         //console.log(hours,minutes);
         let time = hours.toString()+':'+(minutes>9?'':'0')+minutes.toString();
         this.showtimeLabel.string = time;
-        if(this.time>=420){
-            clearInterval(this.timer);
+        if(this.time>=240){
             this.timer = null;
             this.showtimeLabel.color = new Color(255,0,0,255);
         }

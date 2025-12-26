@@ -1,6 +1,6 @@
 {
-    "fileNumber": 1,
-    "linesNumber": [10],
+    "fileNumber": 2,
+    "linesNumber": [10,16],
     "orgtextString": [
         [
 			"#include<stdio.h>",
@@ -10,7 +10,25 @@
 			"    int edge;",
 			"    scanf(\"%d\",edge);",
 			"    double s=sin(2*PI/edge)*0.5*edge;",
-			"    printf(\"%.9lld\",s);",
+			"    printf(\"%.4lld\",s);",
+			"    return 0;",
+			"}"
+        ],
+        [
+			"#include<stdio.h>",
+			"int main(){",
+			"    const int pi=3.1415926;",
+			"    int n;",
+			"    scanf(\"%d\",&n);",
+			"    int cnt=0,factorial=1;",
+			"    double s=0,pow=0;",
+			"    while(pow/factorial>1e-12){",
+			"        if(cnt%4==1)s+=pow/factorial;",
+			"        else if(cnt%4==3)s-=pow/factorial;",
+			"        factorial*=++cnt;",
+			"        pow*=2*pi/n;",
+			"    }",
+			"    printf(\"%.4llf\",s*0.5*n);",
 			"    return 0;",
 			"}"
         ]
@@ -24,18 +42,38 @@
 			"    int edge;",
 			"    scanf(\"%d\",&edge);",
 			"    double s=sin(2*PI/edge)*0.5*edge;",
-			"    printf(\"%.9llf\",s);",
+			"    printf(\"%.4llf\",s);",
 			"    return 0;",
 			"}"
+        ],
+        [
+			"",
+			"",
+			"    const double pi=3.1415926;",
+			"",
+			"",
+			"    int cnt=0,factorial=0;",
+			"    double s=0,pow=1;",
+			"",
+			"",
+			"",
+			"",
+			"",
+			"",
+			"",
+			"",
+			""
         ]
     ],
     "changeableArray": [
-        [false, true, true, false, false, true, false, true, false, false]
+        [false, true, true, false, false, true, false, true, false, false],
+		[false, false, true, false, false, true, true, false, false, false, false, false, false, false, false, false]
     ],
     "answerArray": [
-        [0, 0, -1, 0, 0, 1, 0, 1, 0, 0]
+        [0, 0, -1, 0, 0, 1, 0, 1, 0, 0],
+        [0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0]
     ],
-    "filenameString": ["st3_calculate.c"],
+    "filenameString": ["st3_calculate.c","st2_polygon.c"],
     "errorinformationString": [
         [
             [0,null],
@@ -46,16 +84,26 @@
             [1,"incompatible implicit declaration of built-in function 'sin'"],
             [1,"incompatible implicit declaration of built-in function 'sin'"],
             [1,"incompatible implicit declaration of built-in function 'sin'"]
+        ],
+        [
+            [0,null],
+            [3,null],
+            [3,null],
+            [3,null],
+            [3,null],
+            [3,null],
+            [3,null],
+            [3,null]
         ]
     ],
 
     "totalperiodNumber": 3,
-    "namesArray": ["whh","st1","st2","st3","st4"],
+    "namesArray": ["TA","st1","st2","st3","st4"],
     "dialoguesArray": [
         [
             11,
             [
-                "0 同学们，今天的上机作业已经发布在课程主页上了。",
+                "0 同学们，这周的上机作业已经发布在课程主页上了。",
                 "0 要求同上一次。",
                 "0 请大家及时完成。",
                 "1 收到",
@@ -80,30 +128,45 @@
                 "0 具体为什么后面会讲的",
                 "0 现在就先当语法来记好了",
                 "3 收到，谢谢助教",
-                "4 助教助教，看看我的",
-                "4 始终没有输出"
+                "2 助教助教，看看我的",
+                "2 始终输出为零"
             ]
         ],
         [
-            4,
+            15,
             [
-                "0 @st2，你写的是C++语法...",
-                "0 有C++基础的同学不要把C和C++弄混了",
-                "0 考试写C++是没分的",
-                "2 收到，谢谢助教提醒"
+                "0 @st2，乘方初始化是1不是0",
+                "0 常数pi设置成整型了，所以会变成3",
+                "0 以及用Taylor展开计算sin啊",
+                "0 很有想法",
+                "0 但这里有个问题",
+                "0 你用的是带Peano余项Maclaurin公式",
+                "0 这个式子在变量与零相差较大的时候误差很大",
+                "0 比如可以试试输出n等于4时的9位答案",
+                "0 是不会为2.000000000的",
+                "0 以及为什么不用试着用math.h的sin函数(",
+                "2 想试点新鲜的（bushi）",
+                "2 误差确实挺大的",
+                "2 也是实际使用了才发现和想的不太一样",
+                "0 挺好的，数学工具与计算机程序的关联是很紧密的",
+                "2 谢谢助教了，我再多学一点"
             ]
         ]
     ],
     "choiceArray":[
         2,
-        ["C语言中double对应的类型后缀是？", "包含C语言标准输出函数的头文件是？"],
+        ["C语言中double对应的类型后缀是？", "本段代码真的完全正确吗"],
         [
             ["%llu", "%lld", "%llf"],
-            ["stdio.h", "iostream", "bits/stdc++.h"]
+            ["测评都过了当然是", "精度上有问题", "只是答案刚好碰对了"]
         ],
         [
             [false, false, true],
-            [true, false, false]
+            [false, true, false]
         ]
-    ]
+    ],
+    "titleString":"2.计算多边形面积",
+    "descriptionString":"在生活中，由于三角函数计算的困难性，一些几何问题的计算答案往往需要计算机辅助完成。\n下面请用C语言编写程序，完成内接于单位圆的正多边形的面积计算，精确到小数点后4位。",
+    "inputString":"样例输入：\n  6",
+    "outputString":"样例输出：\n  1    2.5981"
 }

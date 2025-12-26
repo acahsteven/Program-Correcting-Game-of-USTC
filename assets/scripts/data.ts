@@ -3,6 +3,8 @@ export class Globaldata{
     public static gamestateNumber = 0;//等于0时为全部操作禁止，等于1时左侧可以，等于2时右侧可以，等于3时均可以
     public static gameperiodNumber = 0;
     public static curlevelsNumber = 1;//直接测试时需手动调整
+    public static unlockstatus = [null,true,false,false,false,false];
+    public static tollevels = 3;
 
     /*public static passstatBoolean:boolean[] = [false,false,false,false,false];
     public static linesNumber: number[][] = [[],[5,6]];

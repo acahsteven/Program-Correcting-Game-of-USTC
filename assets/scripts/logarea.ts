@@ -1,5 +1,5 @@
 
-import { _decorator, AudioClip, Component, instantiate, Label, Node, Prefab, Vec3, EventMouse, director, resources, JsonAsset, error, UITransform, Size } from 'cc';
+import { _decorator, AudioClip, Component, instantiate, Label, Node, Prefab, Vec3, EventMouse, director, resources, JsonAsset, error, UITransform, Size, Sprite, Color } from 'cc';
 import { constData, Globaldata } from './data';
 const { ccclass, property } = _decorator;
 
@@ -132,6 +132,12 @@ export class logarea extends Component {
         else{
             dialogNode = instantiate(this.dialogSTPrefab);
             x = -88;
+            let col:Color = null;
+            if(nameindex == 1)col = new Color(255,0,0,255);
+            if(nameindex == 2)col = new Color(0,0,255,255);
+            if(nameindex == 3)col = new Color(251,242,54,255);
+            if(nameindex == 4)col = new Color(255,255,255,255);
+            dialogNode.getChildByName("icon").getComponent(Sprite).color = col;
         }
         this.dialogsNode.addChild(dialogNode);
         dialogNode.getChildByName("name").getComponent(Label).string = this.names[nameindex];

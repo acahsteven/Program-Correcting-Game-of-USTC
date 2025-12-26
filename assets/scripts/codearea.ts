@@ -104,7 +104,11 @@ export class codearea extends Component {
             let codeline = instantiate(this.codePrefab);
             codeline.name = `codeline${i+1}`;
             this.codelinesNode.addChild(codeline);
-            codeline.getComponent(Label).string = ` ${i+1}    `+this.textArray[0][i];
+            let str:string = ' ';
+            if(i+1<10)str+=`  ${i+1}  `;
+            else if(i+1<100)str+=` ${i+1}  `;
+            else str+=`${i+1}  `;
+            codeline.getComponent(Label).string = str + this.textArray[0][i];
             let pos = new Vec3(0,cur_y-40*i,0);
             codeline.position = pos;
             this.statArray.push(0);
@@ -150,7 +154,11 @@ export class codearea extends Component {
                     // console.log(this.textArray);
                     // console.log(this.textArray[stat^1]);
                     // console.log(this.textArray[stat^1][index]);
-                    childNode.getComponent(Label).string = ` ${childNode.name.slice(8)}    `+this.textArray[stat^1][index];
+                    let str:string = ' ';
+                    if(childNode.name.slice(8)<10)str+=`  ${childNode.name.slice(8)}  `;
+                    else if(childNode.name.slice(8)<100)str+=` ${childNode.name.slice(8)}  `;
+                    else str+=`${childNode.name.slice(8)}  `;
+                    childNode.getComponent(Label).string = str + this.textArray[stat^1][index];
                     this.statArray[index] = stat^1;
                     if(this.AI_assist == 2){
                         if(this.statArray[index] == this.answerArray[index] || this.answerArray[index] == -1){

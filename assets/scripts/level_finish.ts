@@ -33,10 +33,12 @@ export class level_finish extends Component {
     // }
 
     async onClick (event,data) {
+        Globaldata.unlockstatus[++Globaldata.curlevelsNumber] = true;
+        console.log(Globaldata.unlockstatus);
         Globaldata.gamestateNumber = 0;
         Globaldata.gameperiodNumber = 0;
-        if(data == 1){
-            Globaldata.curlevelsNumber++;
+        if(data == 1 && Globaldata.curlevelsNumber<=Globaldata.tollevels){
+            console.log(Globaldata.curlevelsNumber);
             resources.load(`data/level${Globaldata.curlevelsNumber}`, (err: any, res: JsonAsset) => {
                                 if (err) {
                                     error(err.message || err);
@@ -49,7 +51,7 @@ export class level_finish extends Component {
                     await this.sleep(0.1)
             director.loadScene('game_main');
         }
-        else if(data == 2){
+        else{
             Globaldata.curlevelsNumber = 0;
             Globaldata.gameperiodNumber = 0;
             Globaldata.gamestateNumber = 0;
