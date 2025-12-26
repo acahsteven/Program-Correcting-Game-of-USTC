@@ -40,7 +40,7 @@ export class AIicon_drag extends Component {
         let cur_x: number = event.getUILocationX()-640-290+this.delta_x;
         let new_x: number = (cur_x>410)?410:((cur_x<-410)?-410:cur_x)
         let cur_y: number = event.getUILocationY()-360+this.delta_y;
-        let new_y: number = (cur_y>290)?290:((cur_y<-330)?-330:cur_y)
+        let new_y: number = (cur_y>290)?290:((cur_y<-290)?-290:cur_y)
         this.iconTween = tween(this.AIiconNode)
             .to(0,{ position: new Vec3(new_x,new_y,0)})
             .call(() => {console.log(this.AIiconNode.position);console.log(event.getUILocation())})
