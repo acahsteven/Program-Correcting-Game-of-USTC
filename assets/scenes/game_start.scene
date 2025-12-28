@@ -2330,7 +2330,7 @@
     "propertyPath": [
       "_name"
     ],
-    "value": "level1_\"Hello World!\""
+    "value": "Level1_\"Hello World!\""
   },
   {
     "__type__": "cc.TargetInfo",
@@ -2607,7 +2607,7 @@
     "propertyPath": [
       "_name"
     ],
-    "value": "level2_\"A + B Problem\""
+    "value": "Level2_\"A + B Problem\""
   },
   {
     "__type__": "cc.TargetInfo",
@@ -2898,7 +2898,7 @@
     "propertyPath": [
       "_name"
     ],
-    "value": "level3_\"Final exam score adjustment\""
+    "value": "Level3_\"Score Adjustment\""
   },
   {
     "__type__": "cc.TargetInfo",
@@ -3189,7 +3189,7 @@
     "propertyPath": [
       "_name"
     ],
-    "value": "level4_\"Refining strings\""
+    "value": "Level4_\"Refining Strings\""
   },
   {
     "__type__": "cc.TargetInfo",
@@ -3480,7 +3480,7 @@
     "propertyPath": [
       "_name"
     ],
-    "value": "level5_\"Infex expression\""
+    "value": "Level5_\"Score Grading\""
   },
   {
     "__type__": "cc.TargetInfo",
