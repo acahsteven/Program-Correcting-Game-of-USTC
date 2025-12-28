@@ -228,6 +228,7 @@ export class codearea extends Component {
         this.codelinesNode.active = false;
         this.AINode.active = false;
         this.errorinfNode.getComponent(Label).string = null;
+        this.errorinfNode.active = false;
         let ani = this.runstatusNode.getChildByName("Ani").getComponent(Animation);
         let err:string;
         let ind:number;//0 AC,1 CE,2 part WA,3 ALL WA,4 RE,5 TLE,6 MLE
@@ -254,6 +255,7 @@ export class codearea extends Component {
         }
         else{
             console.log(this.errorInformation);
+            this.errorinfNode.active = true;
             if(err != null)this.errorinfNode.getComponent(Label).string = err;
             this.runstatusNode.on(Node.EventType.MOUSE_DOWN,this.back_to_codelines,this);
             Globaldata.gamestateNumber = pre_sta;

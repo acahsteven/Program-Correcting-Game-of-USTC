@@ -2607,7 +2607,7 @@
     "propertyPath": [
       "_name"
     ],
-    "value": "level2_\"Polygon Calcalution\""
+    "value": "level2_\"A + B Problem\""
   },
   {
     "__type__": "cc.TargetInfo",
@@ -2898,7 +2898,7 @@
     "propertyPath": [
       "_name"
     ],
-    "value": "level3_\"Infex Expression\""
+    "value": "level3_\"Final exam score adjustment\""
   },
   {
     "__type__": "cc.TargetInfo",
@@ -3189,7 +3189,7 @@
     "propertyPath": [
       "_name"
     ],
-    "value": "level4"
+    "value": "level4_\"Refining strings\""
   },
   {
     "__type__": "cc.TargetInfo",
@@ -3480,7 +3480,7 @@
     "propertyPath": [
       "_name"
     ],
-    "value": "level5"
+    "value": "level5_\"Infex expression\""
   },
   {
     "__type__": "cc.TargetInfo",

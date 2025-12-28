@@ -93,9 +93,9 @@
     "errorinformationString": [
         [
             [0,null],
-            [4, "Runtime Error: Process exited with code 131072 after 0.016s"],
-            [4, "Runtime Error: SIGSEGV: Segmentation Fault"],
-            [4, "Runtime Error: SIGSEGV: Segmentation Fault"]
+            [4, "Process exited with code 131072 after 0.016s"],
+            [4, "SIGSEGV: Segmentation Fault"],
+            [4, "SIGSEGV: Segmentation Fault"]
         ],
         [
             [0,null],

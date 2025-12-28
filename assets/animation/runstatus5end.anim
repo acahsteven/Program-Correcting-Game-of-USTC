@@ -55,7 +55,7 @@
       0
     ],
     "_values": [
-      ">> oncompile * * *\n>> compile succeeded\n>> onrun ~~~~~~\n>> task1:AC\n>> task2:RE\n>> task3:AC\n>> task4:RE\n>> task5:RE\n>> click anywhere to return"
+      ">> oncompile * * *\n>> compile succeeded\n>> runtime error:\n\n\n\n\n\n\n>> click anywhere to return"
     ]
   }
 ]

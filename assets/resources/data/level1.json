@@ -94,7 +94,7 @@
     ],
     "choiceArray":[
         2,
-        ["C 语言的标准输出函数是？", "包含 C 语言标准输入输出函数的头文件是？"],
+        ["C 语言的标准输出函数是？", "包含C语言标准输入输出的头文件是？"],
         [
             ["print", "printf", "println"],
             ["stdio.h", "iostream", "windows.h"]
