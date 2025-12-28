@@ -1,0 +1,215 @@
+{
+    "fileNumber": 2,
+    "linesNumber": [32, 16],
+    "orgtextString": [
+        [
+            "#include<stdio.h>",
+            "#include<ctype.h>",
+            "",
+            "#define MAXN 100000",
+            "",
+            "int flag1, flag2, str_len, out_len;",
+            "char ch, str[MAXN];",
+            "",
+            "int main()",
+            "{",
+            "    scanf(\"%d\", &out_len);",
+            "    while(scanf(\"%c\", &ch)) {",
+            "        if(ch == '%') {",
+            "            if(!flag1)",
+            "                flag1 = 1;",
+            "            else",
+            "                return;",
+            "        } else {",
+            "            if(!flag1)",
+            "                continue;",
+            "            else if(isdigit(ch)) {",
+            "                if(!flag2)",
+            "                    flag2 = 1;",
+            "                else",
+            "                    str[str_len++] = ch;",
+            "            } else",
+            "                str[str_len++] = ch;",
+            "        }",
+            "    }",
+            "    printf(\"%*s\", out_len, str);",
+            "    return 0;",
+            "}"
+        ],
+        [
+            "#include<stdio.h>",
+            "#include<string.h>",
+            "",
+            "#define MAXN 100000",
+            "",
+            "int len;",
+            "char str1[MAXN], str2[MAXN], str3[MAXN];",
+            "",
+            "int main()",
+            "{",
+            "    scanf(\"%d %*[^%]%%%[^%]\", &len, str1);",
+            "    sscanf(str1, \"%[^0-9]\", str2);",
+            "    sscanf(str1, \"%*[^0-9]%*c%s\", str3);",
+            "    printf(\"%*s\", len, strcat(str2, str3));",
+            "    return 0;",
+            "}"
+        ]
+    ],
+    "altertextString": [
+        [
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "    while(~scanf(\"%c\", &ch)) {",
+            "",
+            "",
+            "",
+            "",
+            "                break;",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "    printf(\"%-*s\", out_len, str);",
+            "",
+            ""
+        ],
+        [
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            ""
+        ]
+    ],
+    "changeableArray": [
+        [false, false, false, false, false, false, false, false, false, false, false, true, false, false, false, false, true, false, false, false, false, false, false, false, false, false, false, false, false, true, false, false],
+        [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false]
+    ],
+    "answerArray": [
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    ],
+    "filenameString": ["能不能别再TLE了.c", "can_can_word.c"],
+    "errorinformationString": [
+        [
+            [0,null],
+            [2,null],
+            [2,null],
+            [3,null],
+            [5,null],
+            [5,null],
+            [5,null],
+            [5,null]
+        ],
+        [
+            [0,null]
+        ]
+    ],
+
+    "totalperiodNumber": 3,
+    "namesArray": ["TA","st1","st3","st5","st6"],
+    "dialoguesArray": [
+        [
+            6,
+            [
+                "0 今天上课讲了 printf 和 scanf 的格式控制字符串，大家要好好复习，把这些东西用起来",
+                "0 今天的作业不用这些也可以完成，但是用了会给你降低工作量，还能使你的代码更可读",
+                "1 助教，我的代码怎么总是有几个点 TLE 啊",
+                "2 TLE 一般是因为你的代码在某些情况下会进入死循环",
+                "1 我这也就一个 while 循环，还判断了 scanf 的返回值，应该不会死循环才对",
+                "0 不急不急，我给你看看嗷"
+            ]
+        ],
+        [
+            22,
+            [
+                "0 @stu1 还真就是你这个 while 循环的条件有问题",
+                "0 scanf 的返回值是成功读入的变量个数，如果读到文件末会返回 EOF，也就是 -1",
+                "1 那不是就是您说的，读不到东西就是读到 0 个，就会返回 0 吗？",
+                "0 并不是这样，如果是读到文件末尾，返回值是 -1，非零值在 C 语言中都是真值，所以你这个循环一直不会结束",
+                "1 啊",
+                "0 对，是这样",
+                "0 所以你把循环条件改成 ~scanf(\"%c\", &ch) 就行了",
+                "3 这个 ~ 是按位取反运算符吗？",
+                "0 对的，EOF 是 -1，按位取反后就是 0，这样循环就能结束了",
+                "3 明白了，谢谢学长 /bx",
+                "1 原来是这个问题啊，我还以为是别的地方出错了 /wul",
+                "0 别急，你还有问题呢",
+                "1 /qd",
+                "0 你的第 17 行怎么能 return 呢？",
+                "0 你这里要退出的是循环而不是函数，应该用 break",
+                "1 嘶，写错了写错了",
+                "0 @全体成员 同学们一定要注意，main 函数中不要随便 return，即便你真的要结束程序，直接在这里结束也可能导致内存泄漏（这个你们之后会学到），而且一定一定！要记得 main 函数必须返回 int 类型的值！",
+                "1 还真是嗷，我怎么甚至没有返回值 /qd",
+                "2 收到，一定注意！",
+                "0 同学们再想想，有没有更简便的写法啊？",
+                "0 大家注意看我前面发的消息，要善于运用今天学的东西哦",
+                "4 学长，您看看我这个，我用了今天讲的格式控制字符串"
+            ]
+        ],
+        [
+            9,
+            [
+                "0 @stu6 很好！看来你已经熟练掌握了格式控制字符串、sscanf 和 strcat 了！",
+                "0 大家向这位同学学习哦",
+                "4 谢谢学长 /bx",
+                "2 学长您能解释一下他的代码吗",
+                "2 说实话没太看懂",
+                "0 他的思路是先从 stdin 读入两个 % 之间的字符串到 str1 中，然后再用两次 sscanf 把第一次出现的数字之前和之后的段分别提取出来，最后再调用 strcat 拼接起来输出",
+                "2 哦哦，原来是这样 /jy",
+                "0 对的，这样就避免了使用循环逐字符读取和判断，更简洁高效",
+                "2 明白了，谢谢学长 /bx"
+            ]
+        ]
+    ],
+    "choiceArray":[
+        2,
+        ["想要退出循环，应用哪个语句？", "以下哪种占位符不能正确跳过一个 % 字符？"],
+        [
+            ["return;",
+                        "break;",
+                        "continue;"],
+            [
+                        "%*c",
+                        "%*d",
+                    "%%"]
+        ],
+        [
+            [false, true, false],
+            [false, true, false]
+        ]
+    ],
+
+    "titleString":"4. 字符串清洗",
+    "descriptionString":"题目描述：\n  给定一个输出长度下限，并给出一个字符串，你需要找到这个字符串前两个 % 之间的字符序列，并丢弃其中的第一个数字字符后输出，若长度不足长度下限则在左侧补空格。字符串长度不超过 99999，保证至少存在一个 %（若不存在第二个 % 则读到字符串末尾），且第一个 % 之后至少有一个非数字字符。\n\n  输入格式：\n  第一行包含一个整数，表示输出长度下限。\n  第二行包含一个字符串。\n\n  输出格式：\n  按要求输出处理后的字符串。",
+    "inputString":"样例输入：\n  8\n  sd%AE245Scs~6Rz%Zy",
+    "outputString":"样例输出：\n  AE45Scs~6Rz"
+}

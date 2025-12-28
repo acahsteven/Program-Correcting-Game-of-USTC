@@ -5,13 +5,13 @@
         [
             "#include<stdio.h>",
             "int main(){",
-            "    print(\"hello,world!\");",
+            "    print(\"Hello World!\");",
             "    return 0;",
             "}"
         ],
         [
             "#include<iostream>",
-            "#define STR \"hello,world!\"",
+            "#define STR \"Hello World!\"",
             "int main(){",
             "    std::cout<<STR;",
             "    return 0;",
@@ -22,7 +22,7 @@
         [
             "",
             "",
-            "    printf(\"hello,world!\");",
+            "    printf(\"Hello World!\");",
             "",
             ""
         ],
@@ -64,7 +64,7 @@
             8,
             [
                 "0 同学们，今天是程序设计课程的第一课。",
-                "0 请大家按课程内容完成编译环境的配置，并完成第一个C语言的程序的编写。",
+                "0 请大家按课程内容完成编译环境的配置，并完成第一个 C 语言的程序的编写。",
                 "0 完成后请将源代码交至助教处进行检查。",
                 "1 收到",
                 "2 收到",
@@ -76,29 +76,28 @@
         [
             5,
             [
-                "0 大家注意了，C语言的标准输出函数是printf",
-                "0 不是print或者别的什么",
+                "0 大家注意了，C 语言的标准输出函数是 printf",
+                "0 不是 print 或者别的什么",
                 "3 收到，已经改正了",
                 "2 助教，能看下我的吗",
                 "0 OK"
             ]
         ],
         [
-            4,
+            3,
             [
-                "0 @st2，你写的是C++语法...",
-                "0 有C++基础的同学不要把C和C++弄混了",
-                "0 考试写C++是没分的",
+                "0 @st2，你写的是 C++ 语法",
+                "0 有 C++ 基础的同学注意不要把 C 和 C++ 弄混了",
                 "2 收到，谢谢助教提醒"
             ]
         ]
     ],
     "choiceArray":[
         2,
-        ["C语言的标准输出函数是？", "包含C语言标准输出函数的头文件是？"],
+        ["C 语言的标准输出函数是？", "包含 C 语言标准输入输出函数的头文件是？"],
         [
-            ["print", "printf", "我不知道"],
-            ["stdio.h", "iostream", "bits/stdc++.h"]
+            ["print", "printf", "println"],
+            ["stdio.h", "iostream", "windows.h"]
         ],
         [
             [false, true, false],
@@ -106,8 +105,8 @@
         ]
     ],
 
-    "titleString":"1.Hello World!",
-    "descriptionString":"编写你的第一个c语言程序，使其在终端输出\"hello world!\"。",
+    "titleString":"1. Hello World!",
+    "descriptionString":"编写你的第一个 C 语言程序，使其在终端输出\"Hello World!\"。",
     "inputString":"样例输入：\n  无",
-    "outputString":"样例输出：\n  1    hello world!"
+    "outputString":"样例输出：\n  1    Hello World!"
 }
